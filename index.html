@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Çalışma">
+<title>Yusuf Çalışma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+/* Plan: espresso and cream, amber accent; heavy grotesk for UI, sturdy serif on cards; one daily button first, topics below. */
+:root{
+  --bg:#efe3d2; --surface:#fbf5ec;  --ink:#22170f; --muted:#6b5240;
+  --line:#d6c2a8; --accent:#9a4a0e; --accent-ink:#fff8ef;
+  --again:#b0361b; --hard:#8a5a12; --good:#3f6e16; --easy:#1f5f7a;
+  --ui:"Archivo","Helvetica Neue",system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif;
+ --card:#eaad4e; --cardink:#1b120c; --ca:#1b120c; --cn:#4a2f1a; --chint:#5c3e24; --clabel:#5c3e24; --csoft:rgba(255,248,235,.42); --crule:#7a4a18; --cblank:#5a2a06; --cfill:#5a2a06; --cmark:#f6d898; --cs:#8a2210; --ccautbg:rgba(255,248,235,.45); --ccaut:#5a2a06; --ctbl:rgba(27,18,12,.18); --cdeep:#5a2a06;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#2a1f18; --surface:#382a20; --ink:#f7ecde; --muted:#c9ae94;
+  --line:#56412f; --accent:#eba443; --accent-ink:#1a120d; --again:#e2603f; --hard:#e07d3c; --good:#9cc455; --easy:#6fb8d6;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#2a1f18; --surface:#382a20; --ink:#f7ecde; --muted:#c9ae94;
+  --line:#56412f; --accent:#eba443; --accent-ink:#1a120d; --again:#e2603f; --hard:#e07d3c; --good:#9cc455; --easy:#6fb8d6;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+html{height:100%}
+body{margin:0;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:17px;line-height:1.45;-webkit-tap-highlight-color:transparent;overscroll-behavior:none;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#app{flex:1;width:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:14px 18px 22px;gap:14px}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:900;letter-spacing:-.01em}
+.muted{color:var(--muted)}
+.top{display:flex;align-items:center;gap:10px;min-height:46px}
+.top .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.back,.iconbtn{background:var(--surface);border:1px solid var(--line);border-radius:14px;height:46px;padding:0 14px;font-weight:700}
+.count{font-weight:800;font-variant-numeric:tabular-nums;color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:6px 0 -4px}
+
+/* HOME */
+.hero{display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px}
+.hero h1{font-size:40px;line-height:1}
+.hero p{margin:6px 0 0}
+.ring{width:96px;height:96px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+.ring .num b{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}
+.ring .num span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700}
+.pill b{font-variant-numeric:tabular-nums}
+.big{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;border-radius:24px;padding:22px;border:1px solid var(--line);background:var(--surface)}
+.big .t{font-size:30px;font-weight:900;letter-spacing:.02em;line-height:1}
+.big .s{font-weight:600;color:var(--muted)}
+.big.main{}
+.big.main .s{}
+.homegrid{display:grid;gap:14px}
+
+/* SECTION */
+.sechead h1{font-size:34px}
+.sechead p{margin:4px 0 0}
+.daily{border:0;border-radius:22px;padding:20px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-align:left;display:flex;flex-direction:column;gap:4px}
+.daily b{font-size:24px;font-weight:900}
+.daily span{font-weight:600;opacity:.92}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:16px;min-height:56px;font-weight:800;font-size:17px;padding:0 14px}
+.btn.primary{background:var(--surface);border:2px solid var(--muted);color:var(--ink)}
+.topics{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface)}
+.trow{display:flex;align-items:center;gap:12px;padding:15px 16px;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;min-height:64px}
+.trow:last-child{border-bottom:0}
+.trow .tt{font-weight:800;font-size:17px}
+.trow .ts{font-size:13px;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.trow .bar{margin-left:auto;width:64px;height:6px;border-radius:6px;background:var(--line);overflow:hidden;flex:none}
+.trow .bar span{display:block;height:100%;background:var(--good)}
+.tag{font-size:12px;font-weight:800;border-radius:999px;padding:3px 9px;background:var(--bg);border:1px solid var(--line)}
+
+/* STUDY */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-size:15px;font-weight:700}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.stage{flex:none;display:flex;height:clamp(240px,50vh,440px)}
+.card{flex:1;background:var(--card);color:var(--cardink);border-radius:28px;padding:30px 22px 22px;display:flex;flex-direction:column;justify-content:safe center;align-items:center;text-align:center;gap:12px;overflow-y:auto;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.45);touch-action:pan-y;user-select:none;-webkit-user-select:none;position:relative;border:2px solid transparent}
+.card .label{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--clabel)}
+.q{font-family:var(--ui);font-weight:800;letter-spacing:-.01em;font-size:30px;line-height:1.2;max-width:20ch}
+.q.long{font-size:23px;max-width:28ch}
+.card hr{width:56px;border:0;border-top:3px solid var(--crule);margin:2px 0}
+.a{font-family:var(--ui);font-weight:900;font-size:28px;line-height:1.35;max-width:30ch;color:var(--ca)}
+.n{font-size:15px;line-height:1.4;color:var(--cn);max-width:34ch;font-weight:600}
+.card.on .q,.card.on .q.long{font-size:19px;line-height:1.3;max-width:30ch;opacity:.6}
+.card.on hr{opacity:.5;width:40px;margin:4px 0}
+.card.on::after{content:"";flex:none;height:56px}
+.hint{font-size:14px;font-weight:600;color:var(--chint)}
+.blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--cblank);color:transparent}
+.fill{color:var(--cfill);border-bottom:3px solid var(--cblank)}
+mark{background:var(--cmark);color:inherit;border-radius:4px;padding:0 3px}
+s{color:var(--cs);text-decoration-thickness:2px}
+.say{position:absolute;top:14px;right:14px;border:0;background:#ecd9bf;color:#3a2a1e;border-radius:12px;height:40px;padding:0 12px;font-weight:800;font-size:14px}
+.badge{position:absolute;top:16px;left:16px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:8px;padding:4px 8px;background:#ecd9bf;color:#5a3f2c}
+.stamp{position:absolute;top:50%;font-weight:900;font-size:24px;letter-spacing:.06em;border:4px solid;border-radius:12px;padding:4px 12px;opacity:0;pointer-events:none}
+.stamp.l{left:16px;color:#b0361b;transform:translateY(-50%) rotate(-8deg)} .stamp.r{right:16px;color:#3f6e16;transform:translateY(-50%) rotate(8deg)}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.g{border:0;border-radius:16px;min-height:64px;font-weight:800;font-size:15px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1}
+.g small{font-weight:700;font-size:12px;opacity:.9}
+.g.again{background:var(--again)} .g.hard{background:var(--hard)} .g.good{background:var(--good)} .g.easy{background:var(--easy)}
+:root[data-theme="dark"] .g{color:#1a120d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .g{color:#1a120d}}
+.cardtop{display:flex;min-height:40px;align-items:center}
+.close{border:0;background:transparent;color:var(--muted);font-size:22px;font-weight:700;width:44px;height:44px;margin-left:-10px;border-radius:12px}
+.gradespace{min-height:64px}
+.reveal{border:0;border-radius:16px;min-height:64px;font-weight:900;font-size:18px;background:var(--surface);color:var(--ink);width:100%}
+.swipehint{text-align:center;font-size:13px;font-weight:600;color:var(--muted)}
+.done{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:12px;padding:20px}
+.done h2{font-size:30px}
+
+/* TEST */
+.qcard{background:var(--card);color:var(--cardink);border-radius:24px;padding:24px 20px;display:flex;flex-direction:column;gap:10px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45)}
+.qcard .q{max-width:none;text-align:left}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 14px;min-height:56px;font-weight:600;font-size:16px}
+.opt .k{flex:none;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;background:var(--bg);border:1px solid var(--line)}
+.opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 18%,var(--surface))}
+.opt.wrong{border-color:var(--again);background:color-mix(in srgb,var(--again) 18%,var(--surface))}
+.feedback{font-weight:700}
+.tq{padding:18px 18px}
+.tq .q{font-size:22px}
+.tq .q.long{font-size:19px}
+.tq .n{font-size:14px}
+.opts .opt{min-height:50px;padding:9px 12px;font-size:16px}
+.cardtop .progress{margin-left:6px}
+.progress{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
+.progress span{display:block;height:100%;background:var(--accent)}
+.score{font-size:64px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.wronglist{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left}
+.wronglist div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:15px}
+
+/* PODCAST */
+.now{flex:1;background:var(--card);color:var(--cardink);border-radius:28px;padding:26px 22px;display:flex;flex-direction:column;justify-content:center;gap:12px;min-height:260px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45)}
+.now .a{color:var(--chint)} .now .a.on{color:var(--ca)}
+.pbar{height:6px;border-radius:6px;background:var(--ctbl);overflow:hidden}
+.pbar span{display:block;height:100%;background:var(--cblank);width:0}
+.controls{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:10px}
+.controls button{border:1px solid var(--line);background:var(--surface);border-radius:18px;min-height:66px;font-weight:800}
+.controls .play{border:2px solid var(--muted);font-size:19px}
+.optsrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:15px;font-weight:600;color:var(--muted)}
+select{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 10px;color:var(--ink)}
+.note{font-size:14px;color:var(--muted);margin:0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2a1f18">
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ====== KARTLAR ======
+   Satır biçimi:  Soru || Cevap || Not
+   {{kelime}} = boşluk doldurma, ~~yanlış~~ = düzeltilecek, ==vurgu== = vurgu */
+const DATA = {
+pt: { title: "Portekizce", sub: "Avrupa Portekizcesi · B1", newPerDay: 12, topics: [
+["gecmis", "Geçmiş zamanlar", "Perfeito, imperfeito, ia + fiil, tinha + particípio", `
+Ontem eu {{fui}} ao supermercado. (ir) || || ir ve ser → fui
+Quando {{era}} criança, vivia em Ancara. (ser) || || Geçmişteki durum veya yaş → imperfeito
+"Não ==tinha== tempo" ile "Não ==tive== tempo" farkı? || Tinha: o dönemin genel durumu. Tive: belirli bir anda.
+"==Estive== em Sevilha" ile "==Estava== em Sevilha" farkı? || Estive: gittim, bitti. Estava: o sırada oradaydım.
+"==Comi==" ile "==comia==" farkı? || Comi: bir kez yedim. Comia: yerdim, yiyordum.
+Eu {{estava a dormir}} quando o telefone tocou. (dormir) || || Süren eylem → estava a + fiil. Araya giren → tocou
+Düzelt: ~~Ontem eu ia ao médico.~~ (gittim) || Ontem fui ao médico. || Ia = gidecektim, giderdim
+Düzelt: ~~Antigamente eu trabalhei muito.~~ || Antigamente trabalhava muito. || Alışkanlık → imperfeito
+O hotel {{tinha}} uma piscina enorme. (ter) || || Tarif, özellik → imperfeito
+No ano passado {{tive}} um acidente. (ter) || || Belirli, bitmiş olay → perfeito
+Eu {{ia}} sair, mas começou a chover. (ir) || || Ia + fiil = niyet vardı, olmadı
+Tam çıkacaktım, sen aradın. Çevir. || Ia sair quando me ligaste.
+Çocukken her gün yürürdüm. Çevir. || Quando era criança, caminhava todos os dias.
+Dün arkadaşımı gördüm. Çevir. || Ontem vi o meu amigo.
+Ontem {{fiz}} o jantar para os amigos. (fazer) || || fiz, fizeste, fez, fizemos, fizeram
+Onde é que {{puseste}} as chaves? (pôr, tu) || || pus, puseste, pôs, pusemos, puseram
+Ele {{trouxe}} vinho para a festa. (trazer) || || trouxe, trouxeste, trouxe, trouxemos, trouxeram
+Eles {{vieram}} de comboio. (vir) || || vim, vieste, veio, viemos, vieram
+A Ana {{deu}} um presente à mãe. (dar) || || dei, deste, deu, demos, deram
+Nós {{fomos}} à praia no sábado. (ir) || || fui, foste, foi, fomos, foram
+Tu {{tiveste}} tempo ontem? (ter) || || tive, tiveste, teve, tivemos, tiveram
+Vocês {{estiveram}} no Porto na semana passada. (estar) || || Tamamlanmış dönem → perfeito
+Nós {{estávamos}} em casa quando telefonaste. (estar) || || Arka plan → imperfeito
+Elas {{iam}} ao café todos os dias. (ir) || || Geçmiş alışkanlık → imperfeito
+Ontem nós {{falámos}} com a Ana. (falar) || || Avrupa P.: falámos (geçmiş), falamos (şimdi)
+"==Sabia==" ile "==Soube==" farkı? || Sabia: biliyordum. Soube: öğrendim, haber aldım.
+Pagar, marcar, almoçar → eu (perfeito)? || paguei, marquei, almocei || -gar → -guei, -car → -quei, -çar → -cei
+{{Eram}} dez horas quando cheguei. (ser) || || Geçmişte saat → imperfeito
+Ontem {{não pude}} ir à aula. (poder) || || Belirli bir günde yapamadım → perfeito
+Ben yemek yaparken o televizyon izliyordu. Çevir. || Enquanto eu cozinhava, ele via televisão. || Aynı anda süren iki eylem → iki imperfeito
+Eskiden cumartesileri dışarı çıkardık. Çevir. || Costumávamos sair ao sábado.
+Quando cheguei, o comboio já {{tinha partido}}. (partir) || || Daha önce olan → tinha + particípio
+Yorgundum çünkü kötü uyumuştum. Çevir. || Estava cansado porque tinha dormido mal.
+"==Comi==" ile "==Tenho comido==" farkı? || Comi: yedim, bitti. Tenho comido: son zamanlarda tekrar tekrar.
+Son zamanlarda çok çalışıyorum. Çevir. || Ultimamente tenho trabalhado muito.
+Düzelt: ~~Já tenho visto esse filme.~~ (bir kez) || Já vi esse filme. || Tek, bitmiş olay → perfeito
+"Acabar de + fiil" ne demek? || Az önce ...-dı. || Ex.: Acabei de chegar.
+"Ne dedin?" Çevir. || O que é que disseste?
+`],
+["conj", "Conjuntivo", "Que, talvez, embora, se, quando + conjuntivo", `
+Presente do conjuntivo nasıl yapılır? || Eu formundan -o düşer: -ar → -e, -er/-ir → -a. || falo → fale, bebo → beba, parto → parta
+Conjuntivo (eu): fazer / dizer / ter / vir? || faça, diga, tenha, venha
+Conjuntivo (eu): pôr / poder / ver / trazer? || ponha, possa, veja, traga
+Conjuntivo (eu): sair / ouvir / pedir / dormir? || saia, ouça, peça, durma
+Düzensiz conjuntivo: ser / estar / ir? || seja, esteja, vá
+Düzensiz conjuntivo: dar / saber / querer / haver? || dê, saiba, queira, haja
+É possível que ele {{venha}} amanhã. (vir) || || É possível que + conjuntivo
+É preciso que tu {{tenhas}} paciência. (ter)
+É melhor que vocês {{levem}} um casaco. (levar)
+"É preciso ==estudar==" ile "É preciso que ==estudes==" farkı? || Estudar: genel. Que estudes: özellikle sen.
+Quero que tu {{venhas}} comigo. (vir) || || Farklı özne + istek → conjuntivo
+Düzelt: ~~Quero que eu vá ao Porto.~~ || Quero ir ao Porto. || Aynı özne → infinitivo
+Espero que {{gostes}} do Porto. (gostar)
+Duvido que ele {{saiba}} a resposta. (saber) || || Şüphe → conjuntivo
+Receio que ela não {{esteja}} em casa. (estar) || || Receio que = korkarım ki
+Não acho que ele {{tenha}} razão. (ter) || || Acho que → indicativo. Não acho que → conjuntivo
+Talvez {{chova}} amanhã. (chover) || || Talvez fiilden önce → conjuntivo
+Embora {{esteja}} cansado, vou trabalhar. (estar) || || Embora = -sa da, rağmen
+Falo devagar para que vocês {{percebam}}. (perceber)
+Vamos sair antes que {{comece}} a chover. (começar)
+Fico aqui até que tu {{voltes}}. (voltar)
+Procuro um hotel que {{tenha}} piscina. (ter) || || Belirsiz → conjuntivo. Belli → indicativo
+Oxalá não {{chova}} no sábado! (chover) || || Oxalá = umarım, inşallah
+Se eu {{tivesse}} tempo, ia contigo. (ter) || || Hayali durum: se + imperfeito do conjuntivo
+"Senin yerinde olsam..." Çevir. || Se eu fosse tu...
+Imperfeito do conj. (eu): estar / poder / fazer / saber? || estivesse, pudesse, fizesse, soubesse
+Quando {{puderes}}, liga-me. (poder) || || Gelecek: quando + futuro do conjuntivo
+Assim que {{chegares}}, manda-me uma mensagem. (chegar)
+"Se ==quiseres==" ile "Se ==quisesses==" farkı? || Quiseres: gerçek ihtimal. Quisesses: hayali.
+Futuro do conj. (eu): ser / ter / estar / vir? || for, tiver, estiver, vier
+`],
+["kip", "Fiiller ve kipler", "Gelecek, kibar istek, emir, edilgen, dolaylı anlatım", `
+"Yarın yağmur yağacak": konuşmada ve yazıda? || Konuşma: Amanhã vai chover. Yazı: Amanhã choverá.
+Futuro (eu): fazer / dizer / trazer? || farei, direi, trarei
+Alguém está a bater à porta. Quem {{será}}? || || Futuro = tahmin: "kim acaba?"
+"Acaba João uyandı mı?" Çevir. || Será que o João já acordou?
+Kibarca: "Pencereyi kapatabilir misiniz?" || Podia fechar a janela, por favor? || Podia = kibar istek
+{{Gostaria}} de reservar uma mesa para quatro. (gostar) || || Condicional = çok kibar istek
+No teu lugar, eu {{ia}} ao médico. (ir) || || Konuşmada imperfeito = "-ardım"
+Düzelt (tu, olumsuz emir): ~~Não fala alto!~~ || Não fales alto!
+"Buraya gel!" (tu) Çevir. || Vem cá!
+"Lütfen oturun." (o senhor) Çevir. || Sente-se, por favor.
+Você için emir: ir / fazer / pôr? || Vá! Faça! Ponha!
+Tu için olumsuz emir: ir / dar / ser? || Não vás! Não dês! Não sejas!
+Şoföre: "Hızını düşür!" (tu) || Reduz a velocidade!
+"Não ==consigo== abrir" ile "Não ==posso== abrir" farkı? || Consigo: becerim yetmiyor. Posso: iznim, imkânım yok.
+{{Conheces}} o Porto? (conhecer / saber) || || Conhecer: yer, kişi. Saber: bilgi, beceri
+"Yüzmeyi biliyorum." Çevir. || Sei nadar. || Beceri → saber + fiil
+"Hei de ir ao Brasil." ne anlatır? || Bir gün mutlaka gideceğim. || Haver de + fiil = kararlılık
+"Köprü 1966'da açıldı." Çevir. || A ponte foi inaugurada em 1966. || Edilgen: ser + particípio
+"A loja ==está== fechada" ile "A loja ==foi== fechada" farkı? || Está: şu anki durum. Foi: biri kapattı.
+Düzelt: ~~Vende-se casas.~~ || Vendem-se casas. || Fiil çoğul isme uyar
+"Burada Portekizce konuşulur." Çevir. || Aqui fala-se português.
+A encomenda já foi {{entregue}}. (entregar) || || Kısa particípio: entregue, aceite, impresso, preso
+É melhor {{irmos}} já. (ir, nós) || || Infinitivo pessoal
+Arrumei a casa antes de tu {{acordares}}. (acordar) || || Özne farklı → infinitivo pessoal
+"Çıkmadan önce beni arayın." (vocês) Çevir. || Liguem-me antes de saírem.
+Ele disse: "Estou cansado." → dolaylı? || Ele disse que estava cansado.
+Ela disse: "Vou amanhã." → dolaylı? || Ela disse que ia no dia seguinte.
+Ana: "Faz o jantar!" → dolaylı? || A Ana disse-me para fazer o jantar.
+Dolaylı anlatımda hoje / ontem / amanhã? || nesse dia / no dia anterior / no dia seguinte
+"Passei a ir ao ginásio." ne demek? || Spor salonuna gitmeye başladım. || Passar a + fiil = yeni alışkanlık
+"Não chegámos a falar com ele." ne demek? || Onunla konuşma fırsatı bulamadık.
+Fiquei em casa {{a ver}} um filme. (ver) || || Ficar a + fiil = kalıp ...-mak
+`],
+["zamir", "Zamirler", "Zamirin yeri, o/a/lhe, birleşik zamirler", `
+Düzelt: ~~Eu me esqueci da chave.~~ || Esqueci-me da chave. || Avrupa P.: zamir fiilden sonra
+Doğru sıra? Não / esqueci / me || Não me esqueci. || Olumsuzda zamir fiilden önce
+Düzelt: ~~Você pode me ajudar?~~ || Pode ajudar-me? || Avrupa P.'de "você" az söylenir
+Viste o filme? Sim, {{vi-o}}. || || O, a: nesneyi tekrar etmemek için
+"Vou comprar o bilhete." → zamirle? || Vou comprá-lo. || -r düşer, zamir -lo olur
+"Eles fazem o jantar." → zamirle? || Eles fazem-no. || Fiil -m ile bitince -no
+"Dei o livro ao João." → zamirle? || Dei-lhe o livro. || Kime? → lhe
+Dás-me o livro? Sim, dou-{{to}}. || || te + o = to
+"Dei o livro à Ana." → iki zamirle? || Dei-lho. || lhe + o = lho
+Düzelt (a senhora): ~~Não posso ajudar-lhe.~~ || Não posso ajudá-la. || Avrupa P.: ajudar + o/a
+Nunca {{me tinha}} sentido tão bem. (sentir-se) || || Nunca, já, não → zamir önce
+"Son zamanlarda kendimi kötü hissediyorum." Çevir. || Tenho-me sentido mal ultimamente.
+Vens {{comigo}}? (com + eu) || || comigo, contigo, connosco
+Isto / isso / aquilo farkı? || Isto: bende. Isso: sende. Aquilo: uzakta.
+A senhora com {{quem}} falei é médica. || || Edattan sonra kişi → quem
+"Bu, babası doktor olan çocuk." Çevir. || É o rapaz cujo pai é médico. || Cujo isme uyar: cuja, cujos
+"Habituar-se" ne demek? || Alışmak. || Estou a habituar-me à vida em Lisboa.
+"Adın ne?" (samimi) Çevir. || Como te chamas?
+`],
+["kalip", "Edatlar ve kalıplar", "Gostar de, precisar de, há, ficar com, sık hatalar", `
+Düzelt: ~~Eu gosto café.~~ || Gosto de café. || Gostar her zaman "de" ister
+Düzelt: ~~Que tipo de livros gostas?~~ || De que tipo de livros gostas?
+Düzelt: ~~Preciso falar contigo.~~ || Preciso de falar contigo. || Avrupa P.: precisar de
+Düzelt: ~~Não lembro o seu nome.~~ || Não me lembro do seu nome. || lembrar-se de
+Düzelt: ~~Não consigo a abrir a porta.~~ || Não consigo abrir a porta.
+Düzelt: ~~Tu deves de saber isso.~~ || Tu deves saber isso. || Dever + fiil, "de" yok
+Düzelt: ~~Acabei chegar.~~ || Acabei de chegar.
+Düzelt: ~~Apetece-me a beber um chá.~~ || Apetece-me beber um chá. || Apetecer = canı istemek
+Düzelt: ~~Acordo sempre 7 horas.~~ || Acordo sempre às 7 horas.
+Düzelt: ~~Lisboa é maior cidade do Portugal.~~ || Lisboa é a maior cidade de Portugal. || Portugal artikelsiz
+Düzelt: ~~Este café é mais bom.~~ || Este café é melhor. || bom → melhor, mau → pior
+Düzelt: ~~Não tenho algum dinheiro.~~ || Não tenho dinheiro nenhum.
+Düzelt: ~~Esta mala é demais pesada.~~ || Esta mala é demasiado pesada.
+Düzelt: ~~Eu sou cansado.~~ || Estou cansado. || Geçici durum → estar
+"==É== aborrecido" ile "==Está== aborrecido" farkı? || É: sıkıcı (özellik). Está: sıkılmış (durum).
+{{Há}} muitas pessoas na praça. (var) || || Avrupa P.'de "var" = há
+Düzelt: ~~Tem algum restaurante aqui perto?~~ || Há algum restaurante aqui perto?
+Onde {{fica}} a casa de banho? (bulunmak) || || Sabit yerlerin konumu → ficar
+Amanhã {{tenho de}} acordar cedo. || || Ter de = zorunda olmak
+"Vou ==a== Madrid" ile "Vou ==para== Madrid" farkı? || A: kısa süre. Para: uzun süre, taşınma.
+Ayın 5'inde / pazartesi / ağustosta / saat 3'te? || no dia 5 / na segunda / em agosto / às três
+"Üç gün sonra" ve "üç gün önce"? || daqui a três dias / há três dias
+Moro aqui {{há}} dois anos. || || Há + süre. Desde + başlangıç (desde 2024)
+Pensar / sonhar / depender hangi edatla? || pensar em, sonhar com, depender de
+Ele é {{tão}} alto como o pai. || || Tão + sıfat. Tanto + isim
+Sou alérgico {{ao}} leite. || || alérgico a + o = ao
+Carrega {{na}} tecla Enter. || || carregar em = basmak
+Este molho sabe {{a}} peixe. || || saber a = tadı ... gibi
+"Dar ==com==" ne demek? || Bulmak, rastlamak. || Dei com as chaves debaixo do sofá.
+"Não dei pelo tempo passar." ne demek? || Zamanın geçtiğini fark etmedim. || dar por = fark etmek
+Dükkânda: "Bunu alıyorum." || Fico com este. || ficar com = almak
+"Ele ficou de ligar." ne demek? || Aramaya söz verdi.
+"Dou-me bem com o meu chefe." ne demek? || Şefimle iyi geçinirim.
+{{Mal}} cheguei a casa, adormeci. || || Mal = ...-ır ...-maz
+{{Como}} estava a chover, ficámos em casa. || || Cümle başında sebep → como
+"Trafik yüzünden geç kaldık." Çevir. || Chegámos atrasados por causa do trânsito.
+Apesar {{da}} chuva, fomos à praia. || || Apesar de + isim
+Ama / bununla birlikte / bu yüzden? || mas / no entanto / por isso
+Lisboa está {{cada vez}} mais cara. || || cada vez mais = gittikçe daha
+"Que tal irmos à praia?" ne demek? || Plaja gitsek mi?
+Tu {{é que}} sabes. || || "Sen bilirsin." É que = vurgu
+`],
+["kelime", "Kelimeler", "Avrupa Portekizcesine özgü günlük kelimeler", `
+o autocarro || otobüs || Brezilya: ônibus
+o comboio || tren || Brezilya: trem
+o elétrico || tramvay
+a paragem || durak
+o bilhete || bilet
+a portagem || otoyol geçiş ücreti
+a bomba de gasolina || benzin istasyonu || Otoyolda: a área de serviço
+a passadeira || yaya geçidi
+o peão || yaya
+o engarrafamento || trafik sıkışıklığı
+o semáforo || trafik ışığı
+a casa de banho || tuvalet || Brezilya: banheiro
+o telemóvel || cep telefonu || Brezilya: celular
+o pequeno-almoço || kahvaltı || Brezilya: café da manhã
+uma bica || espresso (Lizbon)
+o miradouro || seyir terası
+a esplanada || açık hava kafe terası
+o troco || para üstü
+a gorjeta || bahşiş
+a mala || valiz
+o rés-do-chão || zemin kat
+o ficheiro || dosya (bilgisayar) || Brezilya: arquivo
+descarregar || indirmek (dosya) || Brezilya: baixar
+a equipa || ekip || Brezilya: equipe
+o golo || gol || Brezilya: gol
+os miúdos || çocuklar (günlük dil)
+o sogro / a nora || kayınpeder / gelin
+o armário / a gaveta / o roupeiro || dolap / çekmece / gardırop
+a loiça || bulaşık
+passar a ferro || ütü yapmak
+pôr o lixo na rua || çöpü çıkarmak
+o agrafador / a borracha || zımba / silgi
+o chapéu de sol || plaj şemsiyesi
+o protetor solar || güneş kremi
+o nadador-salvador || cankurtaran
+um escaldão || güneş yanığı
+os aguaceiros || sağanak
+a trovoada || gök gürültülü fırtına
+o polvo / o camarão / os mexilhões || ahtapot / karides / midye
+mal passado / bem passado || az pişmiş / iyi pişmiş
+o carteirista || yankesici
+estar constipado || nezle olmak || Dikkat: kabız değil!
+a receita || reçete ve yemek tarifi
+a tosse || öksürük
+meigo / fiel / invejoso || sevecen / sadık / kıskanç
+desconfiado || kuşkucu
+Que seca! || Ne sıkıcı!
+caríssimo / facílimo || çok pahalı / çok kolay
+chumbar no exame || sınavda kalmak
+Bate na madeira! || Tahtaya vur!
+Que sorte! / Que azar! || Ne şans! / Ne talihsizlik!
+setenta e tal anos || yetmiş küsur yaş
+Estou em baixo. || Moralim bozuk.
+trabalhar por conta própria || serbest çalışmak
+É o próprio. || Benim. (telefonda)
+`],
+["gunluk", "Günlük cümleler", "Otel, restoran, sağlık, ulaşım, sohbet", `
+Uçakta: "Yer değiştirir misiniz?" || Importa-se de trocar de lugar comigo?
+"Bu aramızda kalsın." || Isto fica entre nós.
+"Falo a sério." ne demek? || Ciddiyim.
+"Kuzenimle aynı mahallede yaşıyorum." || Vivo no mesmo bairro que o meu primo.
+"Bulaşıkları kim yıkıyor?" || Quem lava a loiça?
+"Dosyayı ekte gönderiyorum." || Envio o ficheiro em anexo.
+"Telefonumun şarjı bitti." || O meu telemóvel ficou sem bateria.
+"Ekip çalışmasını severim." || Gosto de trabalhar em equipa.
+"Sizinle telefonla iletişime geçeceğiz." || Vamos entrar em contacto consigo por telefone.
+"Dün güneşte yandım." || Ontem apanhei um escaldão.
+Otel: "Deniz manzaralı oda istiyorum." || Queria um quarto com vista para o mar.
+Otel: "Kahvaltı dahil mi?" || O pequeno-almoço está incluído?
+Otel: "Klima çalışmıyor." || O ar condicionado não funciona.
+"Bununla hiçbir ilgim yok." || Não tenho nada a ver com isso.
+"Bu balığın hiç tadı yok." || Este peixe não sabe a nada.
+"Gözlüğümü hiçbir yerde bulamıyorum." || Não encontro os óculos em lado nenhum.
+"Bu dolap odama sığar mı?" || Este armário cabe no meu quarto? || caber = sığmak
+"Eşyalarıma dokunma!" (tu) || Não mexas nas minhas coisas!
+"Katılıyorum. / Katılmıyorum." || Concordo. / Não concordo.
+"Emin değilim." || Não tenho a certeza.
+"Nasıl yani?" || Como assim?
+"Cüzdanım çalındı." || Roubaram-me a carteira.
+Polise: "Şikâyette bulunmak istiyorum." || Queria apresentar queixa.
+"Bugün çok sıcak." || Hoje está muito calor.
+Restoran: "Günün yemeği ne?" || Qual é o prato do dia?
+"Afiyet olsun!" || Bom apetite!
+Müzede: "Giriş ücretsiz mi?" || A entrada é gratuita?
+"Burnum tıkalı ve ateşim var." || Tenho o nariz entupido e estou com febre.
+"Başım ağrıyor." || Dói-me a cabeça.
+Eczanede: "Öksürük için bir şeyiniz var mı?" || Tem alguma coisa para a tosse?
+Doktor: "Randevu almak istiyorum." || Queria marcar uma consulta.
+Havalimanı: "Bagajım gelmedi." || A minha bagagem não chegou.
+Taksi: "Beni havalimanına götürür müsünüz?" || Pode levar-me ao aeroporto, por favor?
+Araba kiralarken: "Sigorta dahil mi?" || O seguro está incluído?
+Metroda: "Kartımı doldurmak istiyorum." || Queria carregar o passe.
+Markette kibarca poşet iste. || Queria um saco, por favor. || Queria = kibar istek
+"Pardon, anlamadım. Tekrar eder misiniz?" || Desculpe, não percebi. Pode repetir?
+"Hayır teşekkürler, gerek yok." || Não, obrigado. Não é preciso.
+"Bence bu daha iyi." || Acho que isto é melhor.
+Telefonda: "Kiminle görüşüyorum?" || Com quem estou a falar?
+"Bilgisayarım bozuldu." || O meu computador avariou.
+"Ne zamandır Lizbon'da yaşıyorsun?" || Há quanto tempo vives em Lisboa?
+"Şu an çalışıyorum." (Avrupa P.) || Estou a trabalhar. || Brezilya: estou trabalhando
+Kafede espresso iste. || Uma bica, por favor.
+"Kendi işimi yapıyorum." || Trabalho por conta própria.
+`],
+["rehber", "Rehber cümleleri", "Grupla, otelde, şoförle, acil durumda", `
+"Saat 9'da otelin önünde buluşuyoruz." || Encontramo-nos às 9 em frente ao hotel.
+"15 dakika serbest zamanınız var." || Têm quinze minutos livres.
+"Bu kilise 16. yüzyılda yapıldı." || Esta igreja foi construída no século XVI.
+Otel: "30 kişilik grup rezervasyonumuz var." || Temos uma reserva para um grupo de 30 pessoas.
+"Otobüs 10 dakika sonra kalkıyor." || O autocarro parte daqui a dez minutos.
+"Bu köprü iki kilometre uzunluğunda." || Esta ponte tem dois quilómetros de comprimento.
+"Yankesicilere dikkat edin!" || Cuidado com os carteiristas!
+"Kimse yaralanmadı." || Ninguém ficou ferido.
+"Bu otobüs Belém'e gider mi?" || Este autocarro vai para Belém?
+"Herkese günaydın, Lizbon'a hoş geldiniz." || Bom dia a todos, bem-vindos a Lisboa.
+"Yolculardan biri pasaportunu kaybetti." || Um dos passageiros perdeu o passaporte.
+"Ambulans çağırmamız gerekiyor." || Precisamos de chamar uma ambulância.
+"Mavi montlu bir beyefendiyi arıyorum." || Estou à procura de um senhor de casaco azul.
+"Yarın saat sekizde Sevilla'ya hareket ediyoruz." || Amanhã partimos para Sevilha às oito.
+"Hesabı getirebilir misiniz lütfen?" || Podia trazer-nos a conta, por favor?
+"Otobüs istasyonun yanında park etmiş." || O autocarro está estacionado ao lado da estação.
+"Müze saat kaçta açılıyor?" || A que horas abre o museu?
+"Fiyata dahil mi?" || Está incluído no preço?
+"Bu bina hâlâ yapım aşamasında." || Este edifício ainda está em construção.
+"Sintra'ya ne kadar sürer?" || Quanto tempo demora até Sintra?
+`]
+]},
+
+tur: { title: "Rehberlik", sub: "Şehir şehir rota", newPerDay: 12, topics: [
+["toledo", "Toledo", "Katedral, San Martín, Alcázar, Alcántara, San Servando, damasquinado", `
+Toledo neden "üç kültür şehri"? || Hristiyan, Müslüman ve Yahudiler birlikte yaşadı.
+Toledo'yu çeviren nehir? || Tajo (Portekiz'de Tejo)
+Vizigotların başkenti? || Toledo || 589'da Katolikliğe geçtiler.
+Toledo Hristiyanlara ne zaman geçti? || 1085, Kastilya Kralı VI. Alfonso
+Toledo UNESCO listesine ne zaman girdi? || 1986, tarihi şehir olarak
+Toledo'yu dışarıdan görmenin en iyi yeri? || Mirador del Valle
+Toledo'daki iki tarihi sinagog? || Santa María la Blanca ve El Tránsito
+Toledo Katedrali'nin unvanı ve yapım süresi? || Primada, 1226–1493
+Toledo Katedrali'ndeki Transparente nedir? || Tavandan ışık alan Barok sunak
+Toledo Katedrali'nin hangi odasında El Greco tablosu var? || Kutsal Eşya Odası (Sacristía) || En ünlüsü: El Expolio
+El Greco'nun Orgaz Kontu tablosu nerede? || Santo Tomé Kilisesi, Toledo
+San Martín Köprüsü nerede? || Şehrin batısında, Tajo üzerinde || Orta Çağ köprüsü, 14. yy'da yeniden yapıldı.
+San Martín Köprüsü'nün mimar efsanesi? || Mimarın karısı hatalı kemeri gizlemek için iskeleyi yaktı. || Rivayet
+San Martín Köprüsü'nün yanında bugün ne var? || Nehrin üstünden geçen zipline (tirolina)
+Alcázar de Toledo nerede? || Şehrin en yüksek noktasında || Kökü Roma dönemine uzanır.
+Alcázar de Toledo bugün ne? || Ordu Müzesi (Museo del Ejército)
+Alcázar 1936'da neden ünlü oldu? || İç Savaşta yaklaşık 70 gün süren kuşatma || Albay Moscardó ve oğlunun telefon konuşması anlatılır.
+Puente de Alcántara adının anlamı? || Arapça el-kantara: köprü || Roma kökenli, şehrin doğu girişi
+San Servando Kalesi nerede? || Tajo'nun doğu yakasında, Alcántara Köprüsü'nün karşısında
+San Servando Kalesi ilk ne olarak kuruldu? || Manastır. Sonra köprüyü koruyan kaleye dönüştü. || 1085 fethinden sonra
+Damasquinado nedir? || Çeliğe altın veya gümüş kakma, Şam kökenli
+Toledo hangi çelik ürünüyle ünlü? || Kılıç || Toledo çeliği yüzyıllardır ünlü.
+Toledo'nun meşhur tatlısı? || Mazapán (badem ezmesi)
+`],
+["granada", "Granada", "Sacromonte, zambra, Isabel ve Kolomb, Gran Vía, Belediye, Torre de la Vela, Elhamra", `
+Granada ne zaman düştü? || 2 Ocak 1492
+Boabdil kimdir? || Granada'nın son Müslüman sultanı || Ağladığı tepe: Suspiro del Moro (rivayet)
+1492 sürgününde Osmanlı'nın rolü? || II. Bayezid sürgün edilen Sefarad Yahudilerini kabul etti.
+Katolik Krallar nerede yatar? || Capilla Real, Granada
+Albaicín nedir? || Granada'nın tarihi Müslüman mahallesi
+Elhamra'nın en iyi manzara noktası? || Mirador de San Nicolás
+Granada'nın bar geleneği? || İçecekle ücretsiz tapa
+Sierra Nevada'nın en yüksek zirvesi? || Mulhacén, yaklaşık 3.480 m || İberya'nın en yüksek zirvesi
+Sacromonte neyle ünlü? || Mağara evler ve zambra flamenkosu
+Sacromonte'deki mağara flamenkosunun adı? || Zambra
+Flamenkonun kökeni? || Endülüs Romanları, Arap ve Yahudi etkisi || Sevilla en ünlü merkezi ama kökeni değil.
+Flamenkonun üç öğesi? || Cante, baile, toque (şarkı, dans, gitar)
+Granada'daki Isabel ve Kolomb anıtı neyi anlatır? || Kolomb'un seferi için kraliçeyle anlaşmasını
+Kolomb'la yapılan anlaşmanın adı ve tarihi? || Santa Fe Kapitülasyonları, 17 Nisan 1492 || Santa Fe, Granada'nın hemen yanında
+Granada'daki Gran Vía'nın tam adı? || Gran Vía de Colón || 19. yy sonunda açıldı, eski mahallenin bir kısmı yıkıldı.
+Granada Belediyesi hangi meydanda? || Plaza del Carmen || Bina eski bir Karmelit manastırı.
+İlk Hristiyan bayrağının çekildiği kule? || Torre de la Vela || Çanı her 2 Ocak'ta çalınır.
+Elhamra adının anlamı? || Arapça "kırmızı": duvarların rengi
+Elhamra'yı kim inşa etti? || Nasrî hanedanı, 13.–14. yy
+Nasrî hanedanı ne zaman yönetti? || 1238–1492
+Elhamra duvarlarında tekrar eden yazı? || "Allah'tan başka galip yoktur" (Ve lâ gâlibe illallah)
+Aslanlı Avlu'daki çeşmede kaç aslan var? || 12
+Generalife nedir? || Nasrî sultanlarının yazlık bahçe sarayı
+Elhamra içindeki Rönesans sarayı? || V. Carlos Sarayı, 1526 kararı
+Nasrî Saraylarında en önemli kural? || Giriş saatine kesin uyulur. || Biletler haftalar önce tükenir.
+Elhamra yılda kaç ziyaretçi alır? || Yaklaşık 2,5–3 milyon
+Elhamra Masalları'nın yazarı? || Washington Irving
+`],
+["cordoba", "Córdoba", "Mezquita, Alcázar, Puerta del Puente, Roma Köprüsü, Calahorra", `
+Córdoba hangi nehrin kıyısında? || Guadalquivir
+Kurtuba Halifeliği'ni kim, ne zaman ilan etti? || III. Abdurrahman, 929
+10. yüzyılda Kurtuba neden önemliydi? || Batı Avrupa'nın en büyük şehirlerinden biriydi. || Kütüphaneler, hastaneler, aydınlatılmış sokaklar.
+Córdoba doğumlu Romalı filozof? || Seneca
+Yahudi mahallesindeki heykel? || Maimonides
+Córdoba Sinagogu'nun önemi? || 1315, İspanya'da kalan üç Orta Çağ sinagogundan biri
+En çok fotoğraflanan sokak? || Calleja de las Flores
+Kurtuba Camii ne zaman başladı? || 785, I. Abdurrahman || Vizigot kilisesinin yerine
+Kurtuba Camii'nde kaç sütun var? || 850'den fazla, kırmızı-beyaz çift kemer
+Kurtuba Camii mihrabının kubbesi neyle süslü? || Bizans ustalarının altın mozaikleri || II. Hakem döneminde
+Kurtuba Camii'nin avlusu? || Patio de los Naranjos (Portakal Avlusu)
+Caminin ortasına katedral ne zaman eklendi? || 1523'ten itibaren, V. Carlos döneminde
+V. Carlos'a atfedilen pişmanlık sözü? || "Eşsiz bir şeyi yıkıp her yerde olan bir şey yaptınız." || Atfedilen söz
+Camiyi neden tamamen yıkmadılar? || Masraf, güç gösterisi, kutsal alanı sahiplenme
+Córdoba Alcázar'ı kim için yapıldı? || XI. Alfonso, 1328 || Katolik Krallar Granada seferinde burada kaldı.
+Kolomb Katolik Krallarla ilk nerede görüştü? || Córdoba Alcázarı, 1486 || Anlatılan bilgi
+Córdoba Alcázarı daha sonra ne oldu? || Yaklaşık 3 yüzyıl Engizisyon merkezi
+Puerta del Puente nedir? || Roma Köprüsü'ne açılan Rönesans kapı || 16. yy, II. Felipe'nin ziyareti için yenilendi.
+Roma Köprüsü'nün iki ucunda ne var? || Calahorra Kulesi ve Puerta del Puente
+Roma Köprüsü ne zaman yapıldı? || MÖ 1. yy, Augustus dönemi || Defalarca onarıldı. 16 kemer
+Córdoba Roma Köprüsü hangi dizide? || Game of Thrones (Volantis)
+Calahorra Kulesi bugün ne? || Endülüs yaşamını anlatan müze || Köprünün güney ucunu koruyan İslam dönemi kulesi
+`],
+["sevilla", "Sevilla", "Plaza de España, Torre del Oro, Katedral, Giralda, María Luisa, flamenko", `
+Amerika ticaretinde Sevilla'nın rolü? || Yaklaşık 200 yıl Yeni Dünya ticaret tekeli
+Guadalquivir neden önemli? || Amerika gemileri Sevilla'ya bu nehirden geldi. || İspanya'nın en uzun nehri değil, en uzunu Tajo.
+Sevilla yakınında doğan Roma imparatorları? || Trajan ve Hadrian (Italica)
+NO8DO ne anlatır? || "Beni terk etmedi" → sadakat || 8 yerine yumak (madeja) çizilir.
+Sevilla doğumlu iki büyük ressam? || Velázquez ve Murillo
+Plaza de España ne için yapıldı? || 1929 İbero-Amerikan Sergisi, Aníbal González || Bankolar İspanya'nın illerini temsil eder.
+Sevilla Plaza de España hangi filmde? || Star Wars Bölüm II (Naboo)
+Torre del Oro'yu kim yaptı? || Muvahhidler, 1220 || Bugün denizcilik müzesi
+Torre del Oro adının kaynağı? || Nehre yansıyan altın renkli parıltı || Rivayet, başka açıklamalar da var.
+Sevilla Katedrali'nin önemi? || Dünyanın en büyük Gotik katedrali || 1401'de caminin yerine başladı.
+Sevilla Katedrali için anlatılan söz? || "Bizi deli sansınlar diye büyük yapalım." || Rivayet
+Kolomb'un mezarı nerede? || Sevilla Katedrali, dört kral figürü taşır. || 2006 DNA çalışması kemiklerin ona ait olduğunu gösterdi.
+Giralda'nın iki dönemi? || 1198 minare, 1568 çan kulesi
+Giralda'da merdiven yerine ne var? || 35 rampa: ata binerek çıkılsın diye
+Giralda adı nereden gelir? || Tepedeki dönen heykel Giraldillo (rüzgârgülü)
+María Luisa Parkı'nı kim bağışladı? || Prenses María Luisa, 1893
+María Luisa Parkı hangi serginin alanı oldu? || 1929 İbero-Amerikan Sergisi
+Flamenko izlenen mekân? || Tablao
+Duende nedir? || Flamenkoda ruhani esrime
+Real Alcázar'ı kim yaptırdı? || Kral I. Pedro, 14. yy, Mudéjar || Hâlâ kraliyet konutu
+Real Alcázar hangi dizide? || Game of Thrones, Dorne
+Archivo de Indias'ta ne var? || Amerika kolonilerinin arşivi || Juan de Herrera, 16. yy sonu
+Metropol Parasol'ün lakabı? || Las Setas (Mantarlar), 2011
+Triana mahallesi neyle ünlü? || Denizciler, Romanlar ve seramik || Amerika'yı ilk gören denizci: Rodrigo de Triana
+Sevilla'nın iki bahar festivali? || Semana Santa ve Feria de Abril
+Semana Santa'daki kukuletalılar? || Nazarenos
+Sokaktaki Sevilla portakalları yenir mi? || Hayır, çok ekşi. Marmelat yapılır.
+`],
+["lizbon", "Lizbon", "Rossio, São Jorge, Santa Justa, Belém Kulesi, Keşifler Anıtı, Avenida", `
+Lizbon kaç tepe üzerinde, hangi nehirde? || Yedi tepe, Tejo kıyısı
+Lizbon'un nüfusu? || Şehir yaklaşık 550 bin, metropol yaklaşık 2,9 milyon
+Lizbon'un kuruluş efsanesi? || Ulis (Odysseus) kurdu. || Tarihte Fenikeliler.
+Lizbon Müslümanlardan ne zaman alındı? || 1147, haçlıların yardımıyla
+1755 depremi ne zaman oldu? || 1 Kasım 1755, Azizler Günü || Deprem, tsunami ve yangın art arda geldi.
+1755'ten sonra Lizbon'u kim yeniden kurdu? || Marquês de Pombal || Bugünkü Baixa planı ondan.
+Pombal'a atfedilen söz? || "Ölüleri gömün, yaşayanları doyurun."
+1755 depremi düşünce tarihini nasıl etkiledi? || Voltaire Candide'i yazdı, Kant doğal nedenlerle açıkladı.
+Rossio'nun resmi adı? || Praça de D. Pedro IV
+Rossio'daki taş döşeme? || Calçada portuguesa, dalga motifi || Beyaz kireçtaşı ve siyah bazalt
+Rossio'daki tarihi kafe? || Café Nicola
+Rossio'daki küçük büfelerde içilen likör? || Ginjinha (vişne likörü)
+Dona Maria II Tiyatrosu neyin yerinde? || Eski Engizisyon Sarayı
+Rua Augusta neyi bağlar? || Rossio ile Praça do Comércio
+São Jorge Kalesi nerede? || Lizbon'un en yüksek tepesinde, Alfama'nın üstünde
+São Jorge Kalesi adını nereden aldı? || Aziz George. İngiliz ittifakı anısına, 14. yy || Kral I. João döneminde
+São Jorge Kalesi'ne hangi tramvay gider? || 28 numara
+Alfama neden önemli? || 1755 depreminden büyük ölçüde kurtuldu.
+Lizbon Katedrali (Sé) neyin yerine yapıldı? || 1147'den sonra caminin yerine
+Santa Justa Asansörü'nü kim yaptı? || Raoul Mesnier du Ponsard, 1902 || Eiffel değil!
+Carmo Manastırı neden çatısız? || 1755'te yıkıldı, hatıra olarak onarılmadı. || 1389'da Nuno Álvares Pereira kurdu.
+Avenida da Liberdade nereden nereye? || Restauradores'ten Marquês de Pombal'a, yaklaşık 1,1 km
+Avenida da Liberdade'nin modeli? || Paris bulvarları, 19. yy sonu
+Avenida'nın ucundaki meydanda kimin heykeli var? || Marquês de Pombal, yanında aslan
+Belém Kulesi ne zaman, kimin döneminde yapıldı? || 1514–1520 arası, Kral I. Manuel || Jerónimos ile birlikte UNESCO listesinde.
+Belém neden önemli? || Keşif gemileri buradan ayrıldı. || Vasco da Gama 1497'de buradan yola çıktı.
+Belém'e hangi tramvay gider? || 15 numara
+Keşifler Anıtı ne zaman, neden açıldı? || 1960, Denizci Henry'nin ölümünün 500. yılı
+Keşifler Anıtı'nda kaç figür var? || Önde Henry, arkasında 32 figür
+Jerónimos Manastırı ne zaman başladı? || 1501–1502, Kral I. Manuel || Vasco da Gama ve Camões burada yatar.
+Pastel de nata nereden çıktı? || Jerónimos keşişleri || Yumurta akı kolaya, sarısı tatlıya.
+Orijinal pastel de nata nerede? || Pastéis de Belém, 1837'den beri || Üstüne tarçın ve pudra şekeri
+Museu dos Coches'u kim kurdu? || Kraliçe Amélia, 1905
+Fado evleri hangi mahallelerde? || Alfama ve Bairro Alto
+Pessoa'nın heykeli nerede? || Chiado, A Brasileira kafesinin önü
+Lizbon'daki çini müzesi? || Museu Nacional do Azulejo
+Lizbon'daki modern yemek pazarı? || Mercado da Ribeira (Time Out Market)
+25 de Abril Köprüsü'nün ilk adı? || Ponte Salazar || 1966'da açıldı.
+`],
+["sintra", "Sintra ve Atlantik Kıyısı", "Tarihi merkez, Cabo da Roca, Cascais, Estoril", `
+Sintra Lizbon'a ne kadar uzak? || Yaklaşık 30 km, Rossio'dan trenle yaklaşık 40 dk
+Lord Byron Sintra'ya ne dedi? || "Görkemli Cennet" (Glorious Eden)
+Sintra UNESCO'ya hangi kategoride girdi? || Kültürel Peyzaj, 1995
+Sintra neden Lizbon'dan serin? || Dağlar okyanus nemini tutar, mikroklima oluşur. || Rahat ayakkabı uyarısı yap.
+Pena Sarayı hangi döneme ait? || 19. yy Romantizmi, Kral II. Ferdinand
+Sintra Ulusal Sarayı'nın simgesi? || İkiz beyaz konik bacalar || Kuğu ve Saksağan odaları ünlüdür.
+Quinta da Regaleira'nın ünlü yeri? || İnisiyasyon kuyusu || Yaklaşık 27 m, sarmal merdiven
+Castelo dos Mouros'u kim yaptı? || Mağribiler, 8.–9. yy || 1147'de Hristiyanlara geçti.
+Monserrate Sarayı'nı kim yaptırdı? || İngiliz tüccar Sir Francis Cook
+Mantar kaplı manastır? || Convento dos Capuchos
+Sintra'nın tatlıları? || Travesseiros ve queijadas
+Cabo da Roca neden önemli? || Kıta Avrupası'nın en batı ucu || Yaklaşık 140 m falez, fener 1772
+Camões'in Cabo da Roca dizesi? || "Karanın bittiği, denizin başladığı yer"
+Cascais'e Lizbon'dan nasıl gidilir? || Cais do Sodré'den banliyö treni
+Boca do Inferno nedir? || Cascais'te falez: "Cehennem Ağzı"
+Estoril'in II. Dünya Savaşı ünü? || Casusların ve sürgün kralların yeri
+Ian Fleming'in Estoril bağlantısı? || Casino Estoril, Casino Royale'e ilham verdi.
+`],
+["obidos", "Óbidos ve Outlet", "Portal da Vila, Rua Direita, Santa Maria, kale, Freeport", `
+Óbidos kime hediye edildi? || 1282, Kral Dinis'ten Kraliçe Isabel'e düğün hediyesi
+Óbidos'u Müslümanlardan kim aldı? || Afonso Henriques, 1148
+Óbidos'un 2015'te aldığı UNESCO unvanı? || Edebiyat Şehri || Kitapçıların bir kısmı eski kilise ve pazarlarda.
+Portal da Vila nedir? || Óbidos'un ana sur kapısı || İçi 18. yy mavi-beyaz çinilerle kaplı.
+Óbidos'ta kapıdan kaleye uzanan ana cadde? || Rua Direita
+Óbidos'un içki geleneği? || Çikolata kadehte ginjinha
+Óbidos Santa Maria Kilisesi'ndeki ünlü düğün? || 1441, çocuk yaştaki Kral V. Afonso ile kuzeni Isabel
+Óbidos Kalesi bugün ne? || Pousada: tarihi otel
+Óbidos'ta surların üstünde yürürken uyarı? || Korkuluk yok, çocuk ve yaşlılara dikkat
+Freeport Outlet nerede? || Alcochete, Vasco da Gama Köprüsü'nün karşı yakası
+Portekiz'de tax-free için ne gerekir? || Pasaport ve mağazanın tax-free formu || AB dışında yaşayan yolcular için
+`],
+["porto", "Porto", "Aslanlı Çeşme, Clérigos, Lello, Aliados, São Bento, Sé, Ribeira, Bolsa, köprüler, fado", `
+Porto ülkeye adını nasıl verdi? || Portus Cale → Portugal
+Porto halkının lakabı? || Tripeiros (işkembeciler) || Etler gemilere gidince halka işkembe kaldı.
+Porto'nun UNESCO bölgesi? || Ribeira, tarihi merkez
+Aslanlı Çeşme (Fonte dos Leões) nerede? || Praça de Gomes Teixeira, üniversite binasının önü || Livraria Lello birkaç dakika uzakta.
+Clérigos Kulesi? || Nasoni, 18. yy Barok, 225 basamak || Gemilere yön işaretiydi.
+Livraria Lello hangi tarzda? || 1906, neo-Gotik ve Art Nouveau || Kırmızı merdiveni betondur.
+J.K. Rowling ve Livraria Lello? || Rowling oraya hiç gitmediğini söyledi. || Porto'da 1991–1993 arası öğretmenlik yaptı.
+Praça da Liberdade'deki atlı heykel kimin? || Kral IV. Pedro || Brezilya'nın ilk imparatoru I. Pedro ile aynı kişi
+Porto Belediye Binası nerede? || Avenida dos Aliados'un tepesinde, saat kulesiyle
+Avenida dos Aliados adını nereden aldı? || I. Dünya Savaşı'nın Müttefikleri
+São Bento İstasyonu'nun çinileri? || Jorge Colaço, yaklaşık 20 bin çini, 1905–1916
+Porto Katedrali (Sé) nasıl bir yapı? || 12. yy, kale gibi Romanesk kilise || Sonraki yüzyıllarda Gotik ve Barok eklemeler
+Denizci Henry'nin Porto bağlantısı? || Porto'da doğdu, 1394 || Sé'de vaftiz edildiği anlatılır.
+Ribeira neresi? || Douro kıyısındaki renkli tarihi mahalle
+Palácio da Bolsa'nın ünlü salonu? || Arap Salonu, Elhamra'dan esinli
+Palácio da Bolsa ne için yapıldı? || Porto Ticaret Borsası, 19. yy
+São Francisco Kilisesi'nin sürprizi? || Dışı sade Gotik, içi altın kaplı Barok oymalar || Bugün müze olarak gezilir.
+Dom Luís I Köprüsü'nü kim tasarladı? || Théophile Seyrig, 1886 || Eiffel'in eski ortağı
+Dom Luís I Köprüsü'nün iki katı? || Üstte metro ve yaya, altta araç ve yaya
+Maria Pia Köprüsü'nün Eiffel bağlantısı? || Eiffel'in şirketi yaptı.
+Porto tekne turunun adı? || Altı Köprü Turu || Douro üzerindeki 6 köprünün altından geçer.
+Rabelo nedir? || Douro'nun düz tabanlı şarap teknesi
+Port şarabı nasıl yapılır? || Fermantasyon brendi ile durdurulur. || Tatlı kalır, alkol yaklaşık %19–22.
+Port şarabının üzümleri nerede yetişir? || Douro Vadisi || 1756'da sınırlandı, ilk resmi şarap bölgelerinden.
+Port mahzenleri nerede? || Vila Nova de Gaia
+Port şarabının üç ana türü? || Ruby, Tawny, White
+Vinho Verde neden "yeşil"? || Genç olduğu için, rengi değil. || Minho bölgesi
+Fado kelimesinin kökeni? || Latince fatum: kader
+Fado'ya eşlik eden gitarlar? || Portekiz gitarı ve klasik gitar
+Fado dinlerken kural? || Tam sessizlik
+Fado UNESCO listesine ne zaman girdi? || 2011
+Saudade nedir? || Özlem, hüzün ve umut karışımı || Tek kelimelik karşılığı yok.
+Coimbra fadosunu kim söyler? || Pelerinli erkek öğrenciler
+Porto'nun tarihi pazarı? || Mercado do Bolhão
+Francesinha nedir? || Porto'nun etli, peynirli, soslu sandviçi
+Porto'da São João gecesi? || 23–24 Haziran, plastik çekiçle kafaya vurulur.
+`],
+["salamanca", "Salamanca", "Üniversite, Plaza Mayor", `
+Salamanca neden "Altın Şehir"? || Kumtaşı güneşte altın rengi alır.
+Salamanca UNESCO listesine ne zaman girdi? || 1988, eski şehir
+Salamanca Üniversitesi ne zaman kuruldu? || 1218, İspanya'nın en eski üniversitesi
+Salamanca Üniversitesi cephesindeki kurbağa? || Kafatası üstündeki kurbağayı bulana şans getirdiğine inanılır. || Gelenek. Cephe Plateresk tarzda.
+Salamanca Plaza Mayor'u ne zaman yapıldı? || 18. yy, Alberto de Churriguera başlattı. || İspanya'nın en güzel meydanlarından sayılır.
+Salamanca katedralindeki astronot? || 1992 restorasyonunda eklendi.
+Casa de las Conchas'ın cephesi? || 300'den fazla deniz kabuğu
+`],
+["madrid", "Madrid", "Plaza Mayor, Castellana, Las Ventas, Gran Vía, Kraliyet Sarayı, Cibeles, Retiro, Metrópolis, Alcalá", `
+Madrid ne zaman başkent oldu? || 1561, II. Felipe || Yarımadanın merkezinde, yaklaşık 650 m yükseklikte.
+Madrid adının kökeni? || Arapça Mayrit: suyu bol yer
+İspanya'nın Kilometre Sıfır'ı nerede? || Puerta del Sol
+Puerta del Sol'daki Madrid sembolü? || Ayı ve kocayemiş ağacı
+Plaza Mayor'u kim tasarladı? || Juan Gómez de Mora, 1617–1619 || 237 balkon
+Paseo de la Castellana nedir? || Madrid'in ana kuzey-güney bulvarı || Bernabéu stadı ve gökdelenler bu aks üzerinde.
+Madrid boğa arenasının adı ve stili? || Las Ventas, 1931, Neo-Mudéjar || İspanya'nın en büyük arenası
+Madrid Gran Vía'nın yapımı ne zaman başladı? || 1910 || Telefónica binası (1929) şehrin ilk gökdelenlerinden.
+Madrid Plaza de España'daki anıt? || Cervantes, Don Kişot ve Sancho Panza
+Kraliyet Sarayı neden yapıldı? || 1734 yangınından sonra V. Felipe yaptırdı. || Yaklaşık 3.400 oda
+Palacio de Cibeles ilk ne olarak yapıldı? || Merkez postane, 1919 || Bugün belediye binası
+Cibeles Çeşmesi'nde kim var? || Aslanların çektiği arabada tanrıça Kybele || 18. yy. Real Madrid kutlamaları burada yapılır.
+Retiro Parkı'ndaki cam yapı? || Palacio de Cristal, 1887
+Retiro'daki Ángel Caído heykelinin farkı? || Şeytanı tasvir eden nadir anıtlardan
+Metrópolis binasının tepesinde ne var? || Kanatlı zafer tanrıçası heykeli || Bina 1911. Gran Vía ile Alcalá köşesi
+Puerta de Alcalá'yı kim yaptı? || Sabatini, III. Carlos için
+Sanatın Altın Üçgeni? || Prado, Reina Sofía, Thyssen
+Prado ne zaman müze oldu? || 1819
+Guernica nerede sergileniyor? || Reina Sofía, Madrid || İspanya'ya demokrasiden sonra, 1981'de geldi.
+Dünyanın en eski restoranı? || Casa Botín, 1725 (Guinness)
+Madrid'in tarihi churros adresi? || Chocolatería San Ginés
+`],
+["barselona", "Barselona", "Katedral, Pont del Bisbe, Paral·lel, Gotik, El Born, Belediye, Plaça Reial, Boqueria, Poble Espanyol, Gaudí", `
+Barselona'nın Roma dönemindeki adı? || Barcino
+Katalonya sorulursa rehber kuralı? || Yorum yapma: "Kimlik ve ekonomik gerilim var" de, geç.
+Katalanca bir lehçe mi? || Hayır, ayrı bir dil. || Gràcies = teşekkürler
+Katedral avlusundaki 13 kaz neyi anlatır? || Azize Eulàlia'nın yaşını
+Carrer del Bisbe'deki köprü ne zaman yapıldı? || 1928, neo-Gotik, Joan Rubió || Orta Çağ'dan değil. Kafatası efsanesi rivayet.
+Avinguda del Paral·lel adı nereden gelir? || Bir enlem paraleli boyunca uzanır. || Tiyatro ve gece hayatı caddesi
+Gotik Mahalle neyin üzerinde? || Roma Barcino'nun üstünde, şehrin en eski kısmı
+El Born'un ünlü kilisesi? || Santa Maria del Mar, 14. yy Katalan Gotiği
+El Born Kültür Merkezi'nde ne var? || 1714 kuşatması öncesi mahallenin kalıntıları
+Barselona Belediyesi hangi meydanda? || Plaça de Sant Jaume || Karşısında Katalonya Hükümeti binası
+Plaça Reial'in lambalarını kim yaptı? || Genç Gaudí
+La Boqueria nerede? || La Rambla üzerinde, tarihi kapalı pazar
+Poble Espanyol nedir? || İspanya'nın bölgelerinden bina kopyalarıyla açık hava köyü || 1929 Sergisi için, Montjuïc
+Montjuïc'teki Sihirli Çeşme? || Carles Buïgas, 1929
+Gaudí'nin hamisi olan aile? || Güell ailesi
+Park Güell aslında ne olarak planlandı? || 60 evlik lüks konut sitesi, tutmadı
+Trencadís nedir? || Kırık seramik parçalarıyla mozaik
+Casa Batlló'nun lakabı? || Kemikler Evi
+Casa Milà'nın diğer adı? || La Pedrera, Passeig de Gràcia
+Eixample nedir? || Izgara planlı mahalle
+Sagrada Família ne zaman başladı? || 1882, Gaudí 1883'te devraldı. || Hedef 172,5 m, dünyanın en yüksek kilisesi
+Gaudí'ye atfedilen Sagrada Família sözü? || "Müşterim acele etmiyor." (Tanrı)
+Gaudí nasıl öldü? || 1926'da tramvay çarptı, dilenci sanıldı.
+Palau de la Música Catalana'nın mimarı? || Domènech i Montaner, 1908
+Barselona'nın 2026 unvanı? || Dünya Mimarlık Başkenti (UNESCO-UIA)
+`],
+["girona", "Girona", "Onyar Nehri, Rambla de la Llibertat, Katedral", `
+Girona hangi nehrin kıyısında? || Onyar, renkli nehir evleri
+Onyar üzerindeki kırmızı demir köprü? || Pont de les Peixateries Velles, 1877 || Eiffel'in şirketine atfedilir.
+Girona'nın ana gezinti caddesi? || Rambla de la Llibertat, Onyar boyunca
+Girona Katedrali'nin rekoru? || Dünyanın en geniş Gotik nefi
+Girona hangi dizide kullanıldı? || Game of Thrones
+Girona'daki dişi aslan heykeli geleneği? || Poposunu öpen Girona'ya geri döner. || Gelenek
+`],
+["figueres", "Figueres", "Dalí'nin doğduğu ev, vaftiz kilisesi, Dalí Müzesi", `
+Dalí nerede doğdu ve öldü? || Figueres, 1904–1989
+Dalí'nin doğduğu ev bugün ne? || Müze (Casa Natal), Carrer Monturiol
+Dalí hangi kilisede vaftiz edildi? || Sant Pere Kilisesi, müzenin hemen yanında
+Dalí Tiyatro-Müzesi? || 1974, Dalí mahzeninde yatar.
+Dalí Müzesi binası eskiden neydi? || Belediye tiyatrosu. İç Savaşta yandı.
+Dalí Müzesi'nin çatısında ne var? || Dev yumurtalar
+Dalí'nin eşi ve ilham kaynağı? || Gala
+`],
+["outlet", "Barselona Outlet", "La Roca Village", `
+La Roca Village nerede? || La Roca del Vallès, Barselona'ya yaklaşık 40 dk
+İspanya'da tax-free için ne gerekir? || Pasaport ve mağazanın tax-free formu || Çıkışta havalimanında onaylatılır.
+`],
+["ronda", "Ronda", "Puente Nuevo, boğa arenası, eski şehir, Santa María la Mayor, Mondragón", `
+Puente Nuevo ne zaman yapıldı, yüksekliği? || 1751–1793, yaklaşık 98 m || El Tajo kanyonu üzerinde
+Ronda'daki nehir? || Guadalevín
+Ronda boğa arenası? || 1785, İspanya'nın en eskilerinden
+Modern yaya boğa güreşi nerede doğdu? || Ronda, Romero ailesi
+Ronda'nın eylül festivali? || Corrida Goyesca
+Ronda ne zaman Hristiyanlara geçti? || 1485
+Ronda'ya bağlı iki ünlü? || Hemingway ve Orson Welles
+Ronda'nın eski şehrinin adı? || La Ciudad, Puente Nuevo'nun güneyi
+Santa María la Mayor neyin yerine yapıldı? || Ana caminin yerine, 1485 sonrası
+Mondragón Sarayı bugün ne? || Ronda Belediye Müzesi || Bahçeleri kanyona bakar.
+Casa del Rey Moro'nun gizli merdiveni? || La Mina: nehre inen 200'den fazla basamak
+`],
+["malaga", "Málaga", "Katedral, Plaza de la Merced", `
+Málaga Katedrali'nin lakabı? || La Manquita (Tek Kollu) || İkinci kulesi bitmedi.
+Picasso nerede doğdu? || Málaga, Plaza de la Merced
+Picasso'nun doğduğu ev bugün ne? || Müze (Fundación Picasso)
+Málaga'daki Picasso Müzesi nerede? || Buenavista Sarayı, 2003'ten beri
+Málaga Alcazaba'sı nedir? || 11. yy İslam kale-sarayı, Roma Tiyatrosu'nun yanında
+Málaga Roma Tiyatrosu ne zaman bulundu? || 1951
+Gibralfaro Kalesi'ni kim yaptı? || Granada Sultanı I. Yusuf, 14. yy
+Málaga'nın sahil lezzeti? || Espetos: çubukta pişen sardalya
+Cebelitarık Boğazı'nda Afrika'ya mesafe? || Yaklaşık 14 km
+`],
+["valencia", "Valencia", "Katedral, Torres de Serranos, Plaza de la Reina, Dos Aguas, Belediye Meydanı", `
+Valencia İspanya'nın kaçıncı büyük şehri? || Üçüncü
+Orijinal Paella Valenciana'da ne var? || Tavuk, tavşan, fasulye, salyangoz, safran || Deniz ürünlüsü sonradan çıktı.
+Socarrat nedir? || Tavanın dibindeki çıtır pirinç
+Paella adı nereden gelir? || Latince patella: tava
+Valencia Katedrali'ndeki kutsal emanet? || Kutsal Kâse (Santo Cáliz)
+Su Mahkemesi ne zaman toplanır? || Her perşembe öğlen, katedral kapısında
+La Lonja de la Seda nedir? || İpek Borsası, 1482–1498, UNESCO
+Valencia'nın mart festivali? || Las Fallas
+Turia Bahçeleri nedir? || Eski nehir yatağında park
+Torres de Serranos nedir? || 14. yy şehir kapısı
+Valencia Katedrali'nin çan kulesi? || El Miguelete
+Plaza de la Reina nedir? || Katedrale bakan ana meydan
+Marqués de Dos Aguas Sarayı'nın simgesi? || Kaymaktaşı Rokoko kapı || İçinde Ulusal Seramik Müzesi
+Valencia Belediye Meydanı'nda Fallas'ta ne olur? || Mascletà: her gün öğlen patlamalı ses gösterisi || 1–19 Mart
+`],
+["segovia", "Segovia", "Su kemeri, katedral, Alcázar", `
+Segovia su kemeri ne zaman yapıldı? || MS 1.–2. yy, yaklaşık 28 m yükseklik
+Segovia su kemerinde harç var mı? || Hayır, granit bloklar harçsız durur.
+Segovia UNESCO listesine ne zaman girdi? || 1985, eski şehir ve su kemeri
+Segovia Katedrali'nin lakabı? || Katedrallerin Hanımı || İspanya'nın son Gotik katedrallerinden, 16. yy
+Segovia Alcázar'ı neye benzer? || Gemi pruvası
+I. Isabel nerede kraliçe ilan edildi? || Segovia, 1474
+Segovia'nın yerel lezzeti? || Cochinillo: fırında süt domuzu || Domuz ürünü, gruba söyle.
+`],
+["genel", "Genel tarih", "Mimari stiller, İberya tarihi, Portekiz kasabaları", `
+Kalın duvar, küçük pencere, yuvarlak kemer. Hangi stil? || Romanesk (10.–12. yy) || Savunma önce gelirdi, kale gibi kilise.
+Çok yüksek, sivri kemer, büyük renkli camlar. Hangi stil? || Gotik (12.–15. yy) || Vitraylar okuma bilmeyen halka resimli İncil'di.
+At nalı kemer, geometrik desen, insan figürü yok. Hangi stil? || Endülüs İslam mimarisi (8.–15. yy) || Canlı tasviri yerine sonsuz geometri.
+Kilisede at nalı kemer ve ince tuğla işçiliği. Hangi stil? || Mudéjar (12.–16. yy) || Hristiyan yapıda Müslüman ustaların işçiliği. Sadece İberya'da.
+Duvarda halat, deniz kabuğu, gök küresi. Hangi stil? || Manuelino (15.–16. yy) || Sadece Portekiz'de. Keşiflerin serveti taşa işlendi.
+Manuelino mu Gotik mi? Nasıl anlarsın? || Deniz motifi varsa Manuelino. || Gotik her yerde var, Manuelino sadece Portekiz'de.
+İçi altın kaplı, çok dramatik kilise. Hangi stil? || Barok (17.–18. yy) || Portekiz'de altının çoğu Brezilya'dan geldi.
+Barok'tan da yoğun süslü İspanyol cephe. Hangi stil? || Churrigueresk (18. yy) || Adı Churriguera ailesinden. En iyi örnek Salamanca.
+Köşesiz, kıvrımlı, mozaikli Barselona binası. Hangi stil? || Modernisme, Gaudí || Katalan Art Nouveau'su.
+Altta Roma taşı, ortada at nalı kemer, üstte çan kulesi. Buna ne denir? || Palimpsest: katmanlı yapı || Yıkmak yerine üstüne inşa ettiler.
+İberya'nın 5 büyük katmanı? || Roma, Vizigot, Endülüs, Reconquista, Keşifler
+Batı Avrupa'nın en eski şehri ve kurucusu? || Gadir (Cádiz), Fenikeliler
+Roma İberya'ya ne zaman geldi? || MÖ 218, adı Hispania oldu. || Tamamen almaları yaklaşık 200 yıl sürdü.
+Roma'nın üç Hispania eyaleti? || Tarraconensis, Baetica, Lusitania
+Lusitania'nın başkenti? || Augusta Emerita (bugün Mérida)
+Romalılara direnen Lusitanyalı lider? || Viriatus
+Müslümanlar ne zaman geldi, komutan kim? || 711, Tarık bin Ziyad || Cebelitarık = Cebel-i Tarık, Tarık'ın Dağı
+Endülüs ne kadar sürdü? || 711–1492, yaklaşık 781 yıl
+İspanyolcaya kaç Arapça kökenli kelime geçti? || 4000'den fazla
+Müslümanların İberya'ya getirdiği ürünler? || Narenciye, pirinç, şeker kamışı, kâğıt
+Taifa krallıkları ne zaman doğdu? || 1031, Halifelik yıkılınca
+Reconquista ne zaman başladı ve bitti? || 722 Covadonga → 1492 Granada || Covadonga bazen 718 olarak verilir.
+Portekiz Reconquista'sını ne zaman bitirdi? || 1249, Algarve || İspanya'dan yaklaşık 250 yıl önce
+1492'nin üç büyük olayı? || Granada düştü, Kolomb Amerika'ya ulaştı, Yahudiler sürüldü.
+Hem Müslüman hem Hristiyan krallara hizmet eden şövalye? || El Cid
+Tordesillas Antlaşması (1494) ne yaptı? || Dünyayı İspanya ve Portekiz arasında böldü.
+İber Birliği hangi yıllar? || 1580–1640 || Kral Sebastião 1578'de Fas'ta varissiz öldü.
+Portekiz bağımsızlığını hangi gün geri aldı? || 1 Aralık 1640, Restorasyon Günü
+Dünyanın hâlâ geçerli en eski ittifakı? || Portekiz–İngiltere, Windsor Antlaşması 1386 || Kökü 1373 anlaşmasına uzanır.
+İspanyol Engizisyonu ne zaman kuruldu? || 1478
+Napolyon döneminde Portekiz kraliyet ailesi nereye gitti? || Brezilya, 1807
+İspanya İç Savaşı? || 1936–1939, Franco kazandı.
+Salazar'ın "üç F" formülü? || Fátima, Fado, Futebol
+Karanfil Devrimi ne zaman? || 25 Nisan 1974, kansız darbe || İşaret: radyoda "Grândola, Vila Morena"
+1981 darbe girişimini kim durdurdu? || Kral Juan Carlos, TV konuşmasıyla
+İspanya ve Portekiz AB'ye ne zaman girdi? || 1986, birlikte
+İspanya son kolonilerini ne zaman kaybetti? || 1898: Küba, Porto Riko, Filipinler
+Portekiz neden İspanya'dan ayrı bir ülke? || 12. yüzyıldan beri bağımsız krallık || 1143 Zamora, 1179 Papa onayı
+Keşiflerde Portekiz neden öne geçti? || Reconquista'yı erken bitirdi, Atlantik'e açıktı, Denizci Henry organize etti.
+Portekiz ne zamandan beri cumhuriyet? || 1910
+Portekiz bayrağındaki küre nedir? || Gök küresi: keşifler çağının simgesi
+İspanya'da kaç özerk bölge var? || 17
+İspanya'nın bölgesel resmi dilleri? || Katalanca, Baskça, Galiçyaca || Baskça hiçbir dille akraba değil.
+Portekizceyi dünyada kaç kişi konuşur? || Yaklaşık 250 milyon || Çoğu Brezilya'da.
+Portekizce ve İspanyolca ne kadar benzer? || Yazıda çok benzer, telaffuz çok farklı.
+Fátima neden hac merkezi? || 1917 Meryem Ana görünme anlatısı
+Guimarães neden "Portekiz'in beşiği"? || Afonso Henriques'in orada doğduğu kabul edilir.
+Batalha Manastırı neyin anıtı? || Aljubarrota zaferi (1385) || Denizci Henry burada yatar.
+Coimbra Üniversitesi ne zaman kuruldu? || 1290, Kral Dinis || 1537'de kalıcı olarak Coimbra'ya taşındı.
+Coimbra'nın mezuniyet festivali? || Queima das Fitas
+Évora neden UNESCO listesinde? || Roma tapınağı ve tarihi merkez, 1986
+Tomar neden önemli? || II. Felipe 1581'de burada Portekiz kralı ilan edildi.
+Son kral II. Manuel nereden sürgüne gitti? || Ericeira, 1910
+`],
+["kisiler", "Kişiler", "Kaşifler, krallar, yazarlar, sanatçılar", `
+Denizci Henry neden önemli? || Uzun sefere çıkmadı ama keşifleri organize etti. || 1394 Porto, 1415 Ceuta, Batalha'da yatar.
+Bartolomeu Dias ne başardı? || 1488, Afrika'nın güney ucunu döndü. || "Fırtınalar Burnu" → Ümit Burnu. 1500'de orada battı.
+Vasco da Gama ne başardı? || 1498, Avrupa'dan Hindistan'a deniz yolu || Sines doğumlu, Jerónimos'ta yatar.
+Pedro Álvares Cabral ne keşfetti? || Brezilya, 1500 || 13 gemi. Belmonte doğumlu.
+Kolomb önce hangi kraldan destek istedi? || Portekiz Kralı II. João, reddedildi. || Portekizli soylu bir kadınla evlendi.
+Amerika adı nereden geliyor? || Amerigo Vespucci || Yeni bir kıta olduğunu fark etti.
+Macellan'ın seferi nasıl bitti? || Filipinler'de öldü, seferi Elcano tamamladı. || Portekizliydi, İspanya adına çıktı.
+Gil Eanes neyi ilk başardı? || 1434, Bojador Burnu'nu geçti.
+Afonso de Albuquerque hangi şehirleri aldı? || Goa, Malakka, Hürmüz || Lakabı: Denizlerin Aslanı
+Camões'in destanı? || Os Lusíadas || 10 Haziran onun anısına milli gün.
+Fernando Pessoa'nın özelliği? || 70'ten fazla farklı isimle (heteronim) yazdı. || Güney Afrika'da büyüdü.
+José Saramago? || 1998 Nobel Edebiyat Ödülü || Vakfı Casa dos Bicos'ta
+Amália Rodrigues? || Fado'nun Kraliçesi || Ulusal Panteon'a gömülen ilk kadın
+Portekiz'in ilk kralı? || Afonso Henriques || Ourique 1139. Coimbra Santa Cruz'da yatar.
+Nuno Álvares Pereira? || Aljubarrota (1385) kahramanı || 2009'da aziz ilan edildi.
+Portekiz'in son kralı? || II. Manuel || 1908 suikastından sonra 18 yaşında tahta çıktı.
+Salazar kimdir? || Estado Novo diktatörü || Coimbra'da ekonomi profesörüydü.
+Marquês de Pombal? || 1755 sonrası Lizbon'u kurdu. || Cizvitleri ülkeden çıkardı.
+Katolik Krallar? || Isabel ve Fernando || 1469'da evlendiler.
+V. Carlos'un iki unvanı? || İspanya Kralı ve Kutsal Roma İmparatoru || Büyük rakibi Kanuni Sultan Süleyman
+II. Felipe? || 1580'de Portekiz tahtını aldı. || El Escorial ve Yenilmez Armada
+Cervantes'in Osmanlı ile bağı? || İnebahtı'da (1571) yaralandı, Cezayir'de 5 yıl esir kaldı.
+Velázquez'in en ünlü tablosu? || Las Meninas
+Goya'nın iki tartışmalı tablosu? || Çıplak Maja ve Giyinik Maja
+Picasso'nun savaş tablosu? || Guernica (1937)
+Picasso'ya atfedilen Guernica cevabı? || "Hayır, siz yaptınız." || Anlatılan anekdot
+Miró'nun sembolleri? || Kadın, kuş, yıldız
+Franco ne zamana kadar yönetti? || 1975 || Ölümüyle demokrasiye geçiş başladı.
+Hernán Cortés hangi imparatorluğu yıktı? || Aztek İmparatorluğu
+António Guterres? || Eski Portekiz başbakanı, 2017'den beri BM Genel Sekreteri
+`],
+["kultur", "Kültür ve mutfak", "Helal soruları, yemekler, gelenekler", `
+Jamón yenir mi sorusuna cevap? || Hayır, domuz ürünü. || Güvenli: peynir, domates, ekmek, zeytin
+Gazpacho nedir? || Soğuk domates çorbası, genellikle domuzsuz
+İspanya ve Portekiz'de yemek saatleri? || Öğle 14–16, akşam 21'den sonra
+Tapas kelimesinin kökeni? || Tapar = örtmek: bardağı örten tabak || Efsaneye göre X. Alfonso
+İspanya, Portekiz ve Bask'ta meze adı? || Tapas / petiscos / pintxos
+Pintxos barında hesap nasıl yapılır? || Kürdanlar sayılır.
+Bacalhau'nun en önemli geleneği? || Noel arifesi yemeği (Consoada)
+Caldo verde'de ne var? || Kara lahana, patates, bir dilim chouriço
+Pica pau nedir? || Çatalla yenen küçük et parçaları (petisco)
+Licor Beirão nedir? || Bitkisel milli Portekiz likörü
+Jamón ibérico'nun en üst sınıfı? || Bellota: meşe palamuduyla beslenen
+Sobremesa nedir? || Yemekten sonra masada uzun sohbet
+Mantar meşesi kaç yılda bir soyulur? || 9 yılda bir, gövdeye yıl yazılır. || Portekiz dünya mantar üretiminin yaklaşık yarısı
+Dünyanın en büyük zeytinyağı üreticisi? || İspanya
+Yoldaki ökaliptüsler nereden geldi? || Avustralya kökenli, 19. yy'da getirildi. || Hızlı büyür, çabuk yanar.
+Azulejo kelimesinin kökeni? || Arapça az-zulaij: cilalı küçük taş
+Azulejolar neden mavi-beyaz? || 17. yy Çin porseleni modası, kobalt boya
+Santos Populares: Lizbon ve Porto'nun azizi? || Lizbon: Santo António (13 Haziran). Porto: São João (24 Haziran)
+Santos Populares'in iki sembolü? || Izgara sardalya ve fesleğen (manjerico)
+Portekiz boğa güreşinin farkı? || Boğa arenada öldürülmez.
+Camino de Santiago'nun sembolleri? || Sarı ok ve deniz kabuğu
+Barcelos horozu neyi simgeler? || Adalet efsanesi, Portekiz sembolü
+İspanya'da selamlaşma? || İki yanaktan öpüşme yaygın || Yabancıya el sıkışmak da normal.
+Siesta bugün nasıl? || Büyük şehirlerde az. Küçük yerlerde 14–17 arası dükkânlar kapanabilir.
+Yol kenarındaki dev siyah boğa? || Osborne boğası
+`],
+["saha", "Saha pratiği", "Roma rakamları, sürüş süreleri, yolda gördüklerin", `
+Roma rakamlarının 7 sembolü? || M 1000, D 500, C 100, L 50, X 10, V 5, I 1
+Roma rakamı okuma kuralı? || Büyük solda: topla. Küçük solda: çıkar. || IV = 4, IX = 9, XL = 40, XC = 90
+MDCCLV kaçtır? || 1755
+MCMXXIX kaçtır? || 1929
+MCDXCII kaçtır? || 1492
+MMXXVI kaçtır? || 2026
+Felipe VI nasıl okunur? || Altıncı Felipe
+Takograf molası kuralı? || 4,5 saat sürüşten sonra 45 dk (AB kuralı)
+Sürüş: 100 km ne kadar sürer? || Yaklaşık 1 sa 19 dk + 8 dk ek || Senin süre tablona göre
+Sürüş: 300 km ne kadar sürer? || Yaklaşık 3 sa 33 dk + 8 dk ek + 15 dk mola || Senin süre tablona göre
+Sürüş: 500 km ne kadar sürer? || Yaklaşık 6 sa 09 dk + 8 dk ek + 45 dk takograf molası || Senin süre tablona göre
+İspanya'da kral var mı? || Evet, parlamenter monarşi: VI. Felipe (2014'ten beri) || Ülkeyi hükümet yönetir.
+Portekiz'de kral var mı? || Hayır, 1910'dan beri cumhuriyet
+Portekiz'in yönetim dönemleri? || Krallık → 1910 cumhuriyet → 1926–1974 diktatörlük → demokrasi
+Papa II. Jean Paul ve Fátima? || 1981 suikastından sonra 1982'de şükran için geldi.
+Hristiyanlığın üç büyük hac merkezi? || Roma, Kudüs, Santiago de Compostela
+Calçada portuguesa uyarısı? || Yağmurda çok kaygandır.
+Lizbon'da espresso nasıl istenir? || "Uma bica, por favor."
+Portekiz–İspanya yolunda görülen 5 bitki? || Mantar meşesi, zeytin, portakal, lavanta, ökaliptüs
+Mañana kültürü nedir? || Daha yavaş zaman anlayışı, gecikmeler normal
+`]
+]}
+};
+
+</script>
+<script>
+/* ================= KARTLARI HAZIRLA ================= */
+function hash(s){ let h = 5381; for(let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+const SECTIONS = {};
+for(const [s, sec] of Object.entries(DATA)){
+  SECTIONS[s] = { ...sec, topicMap: {}, cards: [] };
+  sec.topics.forEach(([tid, title, desc, text]) => {
+    const cards = text.split("\n").map(l => l.trim()).filter(Boolean).map(line => {
+      const p = line.split("||").map(x => x.trim());
+      const q = p[0], cloze = /\{\{.+?\}\}/.test(q);
+      const answers = cloze ? [...q.matchAll(/\{\{(.+?)\}\}/g)].map(m => m[1]) : [];
+      const a = p[1] || (cloze ? q.replace(/\{\{(.+?)\}\}/g, "$1").replace(/\s*\([^)]*\)\s*$/, "") : "");
+      return { id: s + "." + tid + "." + hash(q), s, t: tid, q: q.replace(/\s*Çevir\.?\s*$/, ""), a, n: p[2] || "", cloze, answers };
+    });
+    SECTIONS[s].topicMap[tid] = { id: tid, title, desc, cards };
+    SECTIONS[s].cards.push(...cards);
+  });
+}
+
+/* ================= DEPOLAMA (bu cihaz) ================= */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const dayKey = d => d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+const today = () => dayKey(new Date());
+let SRS = store.get("yk3-srs", {}); function saveSRS(){ store.set("yk3-srs", SRS); if(window.kisiselChanged) kisiselChanged(); }
+/* Konusu değişen kartların ilerlemesini yeni yerine taşı (kimlik: bölüm.konu.soruHash) */
+function migrateSRS(){
+  const byH = {}; Object.keys(SRS).forEach(k => { const p = k.split("."); if(p.length >= 3) byH[p[0] + "." + p[p.length - 1]] = k; });
+  let ch = false;
+  Object.values(SECTIONS).forEach(sec => sec.cards.forEach(c => {
+    if(SRS[c.id]) return; const p = c.id.split("."), k = byH[p[0] + "." + p[p.length - 1]];
+    if(k){ SRS[c.id] = SRS[k]; ch = true; }
+  }));
+  if(ch) store.set("yk3-srs", SRS);
+  return ch;
+}
+migrateSRS();
+let LOG = store.get("yk3-log", {}); function saveLOG(){ store.set("yk3-log", LOG); if(window.kisiselChanged) kisiselChanged(); }
+const DAILY_GOAL = 30;
+function logDay(s, isNew){
+  const t = today(); LOG[t] = LOG[t] || { reviews: 0, new: {} };
+  LOG[t].reviews++; if(isNew){ LOG[t].new[s] = (LOG[t].new[s] || 0) + 1; } saveLOG();
+}
+const newToday = s => ((LOG[today()] || {}).new || {})[s] || 0;
+function streak(){
+  let n = 0; const d = new Date();
+  if(!((LOG[today()] || {}).reviews)) d.setDate(d.getDate() - 1);
+  while((LOG[dayKey(d)] || {}).reviews){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+let extraNew = {}; // bugün için "+10 yeni" istekleri
+
+/* ================= ARALIKLI TEKRAR ================= */
+const MIN = 60e3, DAY = 864e5;
+function schedule(st, g){
+  const s = st ? { ...st } : { ivl: 0, ease: 2.5, reps: 0, lapses: 0 };
+  const now = Date.now();
+  if(g === 1){ if(st) s.lapses++; s.ease = Math.max(1.3, s.ease - 0.2); s.ivl = 0; s.reps = 0; s.due = now + MIN; return s; }
+  if(s.reps === 0){ s.ivl = g === 4 ? 4 : 1; if(g === 2) s.ease = Math.max(1.3, s.ease - 0.15); }
+  else if(g === 2){ s.ivl = Math.max(1, s.ivl * 1.2); s.ease = Math.max(1.3, s.ease - 0.15); }
+  else if(g === 3){ s.ivl = Math.max(s.ivl + 1, s.ivl * s.ease); }
+  else { s.ivl = Math.max(s.ivl + 2, s.ivl * s.ease * 1.3); s.ease += 0.15; }
+  s.ivl = Math.round(s.ivl * 10) / 10; s.reps++; s.due = now + s.ivl * DAY;
+  return s;
+}
+const fmtIvl = st => st.ivl === 0 ? "<1 dk" : st.ivl < 30 ? Math.round(st.ivl) + " g" : st.ivl < 365 ? Math.round(st.ivl / 30) + " ay" : (Math.round(st.ivl / 36.5) / 10) + " yıl";
+function poolOf(s, t){ return t === "all" ? SECTIONS[s].cards : SECTIONS[s].topicMap[t].cards; }
+function stats(cards){
+  const now = Date.now(); let due = 0, learned = 0, fresh = 0;
+  cards.forEach(c => { const st = SRS[c.id]; if(!st) fresh++; else { if(st.reps > 0) learned++; if(st.due <= now) due++; } });
+  return { due, learned, fresh, total: cards.length };
+}
+function newLeft(s){ return Math.max(0, SECTIONS[s].newPerDay + (extraNew[s] || 0) - newToday(s)); }
+
+/* ================= YARDIMCILAR ================= */
+const app = document.getElementById("app");
+const $ = id => document.getElementById(id);
+const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function fmt(t, mode){ // mode: "blank" | "fill" | "plain"
+  let h = esc(t);
+  h = h.replace(/~~(.+?)~~/g, "<s>$1</s>").replace(/==(.+?)==/g, "<mark>$1</mark>");
+  h = h.replace(/\{\{(.+?)\}\}/g, (m, w) => mode === "blank" ? `<span class="blank">${esc(w)}</span>` : mode === "fill" ? `<span class="fill">${w}</span>` : w);
+  return h;
+}
+const plain = t => t.replace(/\{\{(.+?)\}\}/g, "$1").replace(/~~|==/g, "");
+const isTR = t => /[ıİşŞğĞüÜöÖ]/.test(t) || /\b(ne|mi|bir|ile|ve|için|nasıl|hangi|kaç|nedir|Çevir)\b/i.test(t);
+const langOf = (c, t) => c.s === "tur" ? "tr-TR" : (isTR(t) ? "tr-TR" : "pt-PT");
+function go(h){ if(location.hash.replace("#","") === h) render(); else location.hash = h; }
+function shuffle(a){ for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function stopSpeech(){ try{ speechSynthesis.cancel(); }catch(e){} }
+function voiceFor(lang){ try{ const vs = speechSynthesis.getVoices(); return vs.find(v => v.lang === lang) || vs.find(v => (v.lang||"").toLowerCase().startsWith(lang.slice(0,2))) || null; }catch(e){ return null; } }
+function speak(text, lang, rate, onend){
+  if(!("speechSynthesis" in window)){ onend && onend(); return; }
+  const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = rate || 1;
+  const v = voiceFor(lang); if(v) u.voice = v;
+  u.onend = () => onend && onend(); u.onerror = () => onend && onend();
+  speechSynthesis.speak(u);
+}
+(() => { const t = store.get("yk3-theme", null); if(t) document.documentElement.setAttribute("data-theme", t); })();
+function themeToggle(){
+  const r = document.documentElement, cur = r.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const n = cur === "dark" ? "light" : "dark"; r.setAttribute("data-theme", n); store.set("yk3-theme", n);
+}
+const dueTotal = s => { const st = stats(SECTIONS[s].cards); return st.due + Math.min(st.fresh, newLeft(s)); };
+
+/* ================= ANA EKRAN ================= */
+function renderKisiselHome(){
+  const done = (LOG[today()] || {}).reviews || 0, pct = Math.min(1, done / DAILY_GOAL), C = 2 * Math.PI * 40;
+  app.innerHTML = `
+    <div class="top"><div class="right"><button class="iconbtn" id="theme">Tema</button></div></div>
+    <div class="hero">
+      <div><h1>Çalışma</h1><p class="muted">Günlük hedef: ${DAILY_GOAL} kart</p></div>
+      <div class="ring" role="img" aria-label="Bugün ${done} kart, hedef ${DAILY_GOAL}">
+        <svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="40" fill="none" stroke="var(--line)" stroke-width="9"/>
+        <circle cx="48" cy="48" r="40" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct)}"/></svg>
+        <div class="num"><b>${done}</b><span>/ ${DAILY_GOAL}</span></div>
+      </div>
+    </div>
+    <div class="pills"><span class="pill">Seri <b>${streak()} gün</b></span><span class="pill">Bugün bekleyen <b>${dueTotal("pt") + dueTotal("tur")}</b></span></div>
+    <div class="homegrid">
+      <button class="big main" data-go="pt"><span class="t">PORTEKİZCE</span><span class="s">Bugün ${dueTotal("pt")} kart · ${SECTIONS.pt.topics.length} konu</span></button>
+      <button class="big" data-go="tur"><span class="t">REHBERLİK</span><span class="s">Bugün ${dueTotal("tur")} kart · ${SECTIONS.tur.topics.length} konu</span></button>
+    </div>`;
+  $("theme").onclick = () => { themeToggle(); renderKisiselHome(); };
+}
+
+/* ================= BÖLÜM ================= */
+function renderSection(s){
+  const sec = SECTIONS[s], st = stats(sec.cards), nl = Math.min(st.fresh, newLeft(s));
+  app.innerHTML = `
+    <div class="top"><button class="back" data-go="">‹ Ana sayfa</button></div>
+    <div class="sechead"><h1>${esc(sec.title.toLocaleUpperCase("tr"))}</h1><p class="muted">${esc(sec.sub)} · ${st.learned} / ${st.total} kart öğrenildi</p></div>
+    <button class="daily" data-go="${s}-all-kart"><b>Bugünkü çalışma</b><span>${st.due} tekrar · ${nl} yeni · tüm konular karışık</span></button>
+    <div class="duo"><button class="btn" data-go="${s}-all-test">Hızlı test</button><button class="btn" data-go="${s}-all-podcast">Podcast</button></div>
+    <div class="eyebrow">Konuya göre</div>
+    <div class="topics">
+      ${sec.topics.map(([tid]) => { const tp = sec.topicMap[tid], ts = stats(tp.cards); return `
+        <button class="trow" data-go="${s}-${tid}">
+          <span><span class="tt">${esc(tp.title)}</span><br><span class="ts">${ts.learned} / ${ts.total}${ts.due ? ` · ${ts.due} tekrar` : ""}</span></span>
+          <span class="bar"><span style="width:${ts.total ? ts.learned / ts.total * 100 : 0}%"></span></span>
+        </button>`; }).join("")}
+    </div>`;
+}
+function renderTopic(s, t){
+  const tp = SECTIONS[s].topicMap[t], st = stats(tp.cards);
+  app.innerHTML = `
+    <div class="top"><button class="back" data-go="${s}">‹ ${esc(SECTIONS[s].title)}</button></div>
+    <div class="sechead"><h1>${esc(tp.title)}</h1><p class="muted">${esc(tp.desc)}</p></div>
+    <div class="pills"><span class="pill">Öğrenildi <b>${st.learned} / ${st.total}</b></span><span class="pill">Tekrar <b>${st.due}</b></span></div>
+    <button class="daily" data-go="${s}-${t}-kart"><b>Flash kart</b><span>Bu konuda tekrar ve yeni kartlar</span></button>
+    <div class="duo"><button class="btn" data-go="${s}-${t}-test">Test</button><button class="btn" data-go="${s}-${t}-podcast">Podcast</button></div>`;
+}
+
+/* ================= FLASH KART ================= */
+let S = null;
+function buildQueue(){
+  const cards = poolOf(S.s, S.t), now = Date.now();
+  if(S.mode === "tumu") return shuffle(cards.slice());
+  const due = shuffle(cards.filter(c => SRS[c.id] && SRS[c.id].due <= now)).sort((a, b) => SRS[a.id].reps - SRS[b.id].reps);
+  const fresh = cards.filter(c => !SRS[c.id]);
+  const freshPick = (S.t === "all" ? interleaveTopics(fresh) : fresh).slice(0, newLeft(S.s));
+  const q = []; let i = 0, j = 0;
+  while(i < due.length || j < freshPick.length){ if(i < due.length) q.push(due[i++]); if(i < due.length) q.push(due[i++]); if(j < freshPick.length) q.push(freshPick[j++]); }
+  return q;
+}
+function interleaveTopics(cards){ // konuları sırayla karıştır (interleaving)
+  const by = {}; cards.forEach(c => (by[c.t] = by[c.t] || []).push(c));
+  const lists = Object.values(by), out = []; let k = 0;
+  while(lists.some(l => l.length)){ const l = lists[k % lists.length]; if(l.length) out.push(l.shift()); k++; }
+  return out;
+}
+function renderCards(s, t){
+  stopSpeech();
+  if(!S || S.s !== s || S.t !== t){ S = { s, t, mode: "bugun", rev: false, flipped: false, done: 0 }; S.queue = buildQueue(); }
+  drawCard();
+}
+function drawCard(){
+  const sec = SECTIONS[S.s], title = S.t === "all" ? "Bugünkü çalışma" : sec.topicMap[S.t].title;
+  const backTo = S.t === "all" ? S.s : `${S.s}-${S.t}`;
+  const card = S.queue[0];
+  const canRev = S.s === "pt" && (S.t === "kelime");
+  const head = `<div class="cardtop"><button class="close" data-go="${backTo}" aria-label="Kapat">✕</button></div>`;
+  if(!card){
+    const more = S.mode === "bugun" && stats(poolOf(S.s, S.t)).fresh > 0;
+    app.innerHTML = head + `<div class="done"><h2>${S.mode === "bugun" ? "Bugünlük bitti" : "Deste bitti"}</h2>
+      <p class="muted">${S.done} kart çalıştın. ${S.mode === "bugun" ? "Sıradaki tekrarlar zamanı gelince burada." : ""}</p>
+      <button class="btn primary" data-go="${backTo}">Geri dön</button>
+      ${more ? `<button class="btn" id="more">+10 yeni kart</button>` : ""}
+      ${S.mode === "bugun" ? `<button class="btn" id="mTumu">Hepsini gözden geçir</button>` : ""}
+      ${canRev ? `<button class="btn" id="mRev">${S.rev ? "Yön: Türkçe → Portekizce" : "Yön: Portekizce → Türkçe"}</button>` : ""}</div>`;
+    bindChips();
+    if($("more")) $("more").onclick = () => { extraNew[S.s] = (extraNew[S.s] || 0) + 10; S.queue = buildQueue(); drawCard(); };
+    return;
+  }
+  const st = SRS[card.id];
+  const topicName = sec.topicMap[card.t].title;
+  let front, back;
+  if(S.rev){ front = `<div class="q">${fmt(card.a, "plain")}</div>`; back = `<div class="a">${fmt(card.q, "plain")}</div>`; }
+  else if(card.cloze){ front = `<div class="q long">${fmt(card.q, S.flipped ? "fill" : "blank")}</div>`; back = ""; }
+  else { front = `<div class="q ${plain(card.q).length > 34 ? "long" : ""}">${fmt(card.q, "plain")}</div>`; back = `<div class="a">${fmt(card.a, "plain")}</div>`; }
+  const prev = g => S.mode === "tumu" ? "" : `<small>${fmtIvl(schedule(st, g))}</small>`;
+  app.innerHTML = head + `
+    <div class="stage"><div class="card ${S.flipped && (back || S.rev) ? "on" : ""}" id="card" role="button" tabindex="0" aria-label="Kart. Dokununca cevap açılır. Sağa kaydır: biliyorum. Sola: tekrar.">
+      ${front}
+      ${S.flipped ? `${back ? "<hr>" + back : ""}${card.n ? `<div class="n">${fmt(card.n, "plain")}</div>` : ""}` : ""}
+      <span class="stamp l" id="stL">TEKRAR</span><span class="stamp r" id="stR">BİLİYORUM</span>
+    </div></div>
+    ${S.flipped ? `<div class="grades">
+        <button class="g again" data-g="1">Tekrar${prev(1)}</button><button class="g hard" data-g="2">Zor${prev(2)}</button>
+        <button class="g good" data-g="3">İyi${prev(3)}</button><button class="g easy" data-g="4">Kolay${prev(4)}</button></div>`
+      : `<div class="gradespace"></div>`}`;
+  bindChips();
+  const el = $("card"), flip = () => { S.flipped = !S.flipped; drawCard(); };
+  if($("reveal")) $("reveal").onclick = flip;
+  app.querySelectorAll("[data-g]").forEach(b => b.onclick = () => grade(+b.dataset.g));
+  el.onkeydown = e => { if(e.key === " " || e.key === "Enter"){ e.preventDefault(); flip(); } };
+  let x0 = 0, y0 = 0, dx = 0, drag = false, moved = false;
+  el.addEventListener("pointerdown", e => { drag = true; moved = false; x0 = e.clientX; y0 = e.clientY; dx = 0; el.setPointerCapture(e.pointerId); el.style.transition = "none"; });
+  el.addEventListener("pointermove", e => {
+    if(!drag) return; dx = e.clientX - x0; const dy = e.clientY - y0;
+    if(Math.abs(dx) > 6) moved = true;
+    if(!moved && Math.abs(dy) > 10){ drag = false; return; }
+    el.style.transform = `translateX(${dx}px) rotate(${dx / 22}deg)`;
+    const p = Math.min(1, Math.abs(dx) / 110);
+    $("stL").style.opacity = dx < 0 ? p : 0; $("stR").style.opacity = dx > 0 ? p : 0;
+    el.style.borderColor = dx > 0 ? `rgba(63,110,22,${p})` : `rgba(176,54,27,${p})`;
+  });
+  const end = () => {
+    if(!drag) return; drag = false;
+    if(!moved){ el.style.transform = ""; flip(); return; }
+    if(Math.abs(dx) > 100){ el.style.transition = "transform .22s ease-out"; el.style.transform = `translateX(${dx > 0 ? 600 : -600}px) rotate(${dx > 0 ? 24 : -24}deg)`; const g = dx > 0 ? 3 : 1; setTimeout(() => grade(g), 180); }
+    else { el.style.transition = "transform .2s ease-out"; el.style.transform = ""; el.style.borderColor = "transparent"; $("stL").style.opacity = 0; $("stR").style.opacity = 0; }
+  };
+  el.addEventListener("pointerup", end); el.addEventListener("pointercancel", end);
+}
+function bindChips(){
+  const reset = () => { S.queue = buildQueue(); S.flipped = false; drawCard(); };
+  if($("mBugun")) $("mBugun").onclick = () => { S.mode = "bugun"; reset(); };
+  if($("mTumu")) $("mTumu").onclick = () => { S.mode = "tumu"; reset(); };
+  if($("mRev")) $("mRev").onclick = () => { S.rev = !S.rev; S.mode = "tumu"; reset(); };
+}
+function grade(g){
+  const card = S.queue.shift(); if(!card) return; S.done++;
+  if(S.mode === "bugun"){
+    const isNew = !SRS[card.id]; SRS[card.id] = schedule(SRS[card.id], g); saveSRS(); logDay(S.s, isNew);
+    if(g === 1) S.queue.splice(Math.min(3, S.queue.length), 0, card);
+  } else { logDay(S.s, false); if(g === 1) S.queue.splice(Math.min(4, S.queue.length), 0, card); }
+  S.flipped = false; drawCard();
+}
+document.addEventListener("keydown", e => { if(S && location.hash.endsWith("-kart") && S.flipped && "1234".includes(e.key) && e.key) grade(+e.key); });
+
+/* ================= TEST ================= */
+let T = null;
+const answerText = c => c.cloze ? c.answers.join(" … ") : plain(c.a);
+const testable = c => answerText(c).length <= 90;
+function kindOf(c){ const a = answerText(c); return c.cloze ? "cloze" : /^\d|\d{3,4}/.test(a) ? "num" : a.length < 28 ? "short" : "long"; }
+function makeQuestion(c, pool){
+  const right = answerText(c), kind = kindOf(c);
+  const rTR = isTR(right);
+  let cands = pool.filter(x => x !== c && testable(x) && answerText(x) !== right && isTR(answerText(x)) === rTR);
+  const same = cands.filter(x => kindOf(x) === kind && x.t === c.t);
+  const sameKind = cands.filter(x => kindOf(x) === kind);
+  const picks = []; const seen = new Set([right.toLowerCase()]);
+  for(const list of [shuffle(same.slice()), shuffle(sameKind.slice()), shuffle(cands.slice())]){
+    for(const x of list){ const a = answerText(x); if(picks.length >= 3) break; if(!seen.has(a.toLowerCase())){ seen.add(a.toLowerCase()); picks.push(a); } }
+    if(picks.length >= 3) break;
+  }
+  const options = shuffle([right, ...picks]);
+  return { card: c, options, right: options.indexOf(right), chosen: -1 };
+}
+function renderTest(s, t){
+  stopSpeech();
+  const pool = poolOf(s, t).filter(testable);
+  const seen = pool.filter(c => SRS[c.id]);
+  // Önce gördüğün kartlar (geri çağırma), az sayıda yeni (ön test)
+  const picks = shuffle(seen.slice()).slice(0, 8);
+  const rest = shuffle(pool.filter(c => !picks.includes(c)));
+  while(picks.length < Math.min(10, pool.length)) picks.push(rest.shift());
+  T = { s, t, qs: shuffle(picks).map(c => makeQuestion(c, SECTIONS[s].cards)), i: 0, score: 0 };
+  drawTest();
+}
+function drawTest(){
+  const backTo = T.t === "all" ? T.s : `${T.s}-${T.t}`;
+  if(T.i >= T.qs.length){
+    const wrong = T.qs.filter(q => q.chosen !== q.right);
+    app.innerHTML = `<div class="top"><button class="back" data-go="${backTo}">‹ Geri</button></div>
+      <div class="done"><div class="score">${T.score}/${T.qs.length}</div>
+      <p class="muted">${wrong.length ? "Yanlışların flash kart tekrarına eklendi." : "Hepsi doğru."}</p>
+      ${wrong.length ? `<div class="wronglist">${wrong.map(q => `<div><b>${esc(answerText(q.card))}</b><br>${fmt(q.card.q, "blank")}</div>`).join("")}</div>` : ""}
+      <button class="btn primary" id="again">Yeni test</button>
+      <button class="btn" data-go="${T.s}-${T.t}-kart">Flash karta geç</button></div>`;
+    $("again").onclick = () => renderTest(T.s, T.t);
+    return;
+  }
+  const qq = T.qs[T.i], c = qq.card, answered = qq.chosen >= 0, L = "ABCD";
+  app.innerHTML = `
+    <div class="cardtop"><button class="close" data-go="${backTo}" aria-label="Testi bitir">✕</button><div class="progress" style="flex:1"><span style="width:${T.i / T.qs.length * 100}%"></span></div></div>
+    <div class="qcard tq">
+      <div class="q ${plain(c.q).length > 34 ? "long" : ""}">${fmt(c.q, answered ? "fill" : "blank")}</div>
+      ${answered && c.n ? `<div class="n">${fmt(c.n, "plain")}</div>` : ""}</div>
+    <div class="opts">${qq.options.map((o, i) => `<button class="opt ${answered ? (i === qq.right ? "right" : i === qq.chosen ? "wrong" : "") : ""}" data-o="${i}" ${answered ? "disabled" : ""}>
+      <span class="k">${L[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>
+    ${answered ? `<button class="btn primary" id="next">${T.i + 1 < T.qs.length ? "Sonraki" : "Sonucu gör"}</button>` : ""}`;
+  app.querySelectorAll("[data-o]").forEach(b => b.onclick = () => {
+    qq.chosen = +b.dataset.o; const ok = qq.chosen === qq.right; if(ok) T.score++;
+    logDay(T.s, false);
+    if(!ok && SRS[c.id]){ SRS[c.id] = schedule(SRS[c.id], 1); saveSRS(); }
+    if(!ok && !SRS[c.id]){ SRS[c.id] = { ivl: 0, ease: 2.5, reps: 0, lapses: 0, due: Date.now() }; saveSRS(); }
+    drawTest();
+  });
+  if($("next")) $("next").onclick = () => { T.i++; drawTest(); };
+}
+
+/* ================= PODCAST ================= */
+let P = null;
+function renderPodcast(s, t){
+  stopSpeech();
+  const backTo = t === "all" ? s : `${s}-${t}`;
+  const base = poolOf(s, t);
+  P = { cards: base.slice(), pos: 0, phase: 0, playing: false, rate: store.get("yk3-rate", 1), gap: store.get("yk3-gap", 2), timer: null, token: 0, shuf: false };
+  app.innerHTML = `
+    <div class="top"><button class="back" data-go="${backTo}">‹ Geri</button><div class="right"><span class="count" id="pcount"></span></div></div>
+    <div class="chips"><button class="chip" id="pShuf" aria-pressed="false">Karıştır</button><button class="chip" id="pLearned" aria-pressed="false">Sadece öğrendiklerim</button></div>
+    <div class="now"><span class="label" style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--clabel)" id="ptopic"></span>
+      <div class="q long" id="pq"></div><div class="a" id="pa"></div><div class="pbar"><span id="pbar"></span></div></div>
+    <div class="controls"><button id="pPrev">‹ Önceki</button><button class="play" id="pPlay">Oynat</button><button id="pNext">Sonraki ›</button></div>
+    <div class="optsrow"><label for="pRate">Hız</label>
+      <select id="pRate">${[0.75,0.9,1,1.15,1.3].map(r => `<option value="${r}" ${r == P.rate ? "selected" : ""}>${r}x</option>`).join("")}</select>
+      <label for="pGap">Cevaptan önce</label>
+      <select id="pGap">${[1,2,3,5].map(g => `<option value="${g}" ${g == P.gap ? "selected" : ""}>${g} sn bekle</option>`).join("")}</select></div>
+    <p class="note">${"speechSynthesis" in window ? "Önce soru, kısa bekleme, sonra cevap. Bekleme sırasında cevabı içinden söyle. Ses gelmezse sessiz mod düğmesine bak." : "Bu tarayıcı sesli okumayı desteklemiyor. Safari'de aç."}</p>`;
+  const show = () => {
+    if(!P.cards.length){ $("pq").textContent = "Bu listede kart yok."; $("pa").textContent = ""; return; }
+    const c = P.cards[P.pos];
+    $("ptopic").textContent = SECTIONS[c.s].topicMap[c.t].title;
+    $("pq").innerHTML = fmt(c.q, "blank"); $("pa").innerHTML = P.phase ? fmt(c.cloze ? c.a : c.a, "plain") + (c.n ? `<div class="n" style="margin-top:8px">${fmt(c.n, "plain")}</div>` : "") : "…";
+    $("pa").className = "a" + (P.phase ? " on" : "");
+    $("pcount").textContent = `${P.pos + 1} / ${P.cards.length}`;
+    $("pbar").style.width = ((P.pos + (P.phase ? 1 : .5)) / P.cards.length * 100) + "%";
+    $("pPlay").textContent = P.playing ? "Duraklat" : "Oynat";
+  };
+  const halt = () => { P.token++; clearTimeout(P.timer); stopSpeech(); };
+  const step = () => {
+    if(!P.playing || !P.cards.length) return;
+    const tk = ++P.token, c = P.cards[P.pos];
+    const qt = plain(c.q.replace(/\{\{(.+?)\}\}/g, "…")).replace(/\s*\([^)]*\)\s*$/, ""), at = plain(c.a);
+    P.phase = 0; show();
+    speak(qt, langOf(c, qt), P.rate * .92, () => {
+      if(tk !== P.token) return;
+      P.timer = setTimeout(() => {
+        if(tk !== P.token) return; P.phase = 1; show();
+        speak(at, langOf(c, at), P.rate * .92, () => {
+          if(tk !== P.token) return;
+          P.timer = setTimeout(() => { if(tk !== P.token) return; P.pos = (P.pos + 1) % P.cards.length; step(); }, 1000);
+        });
+      }, P.gap * 1000);
+    });
+  };
+  P.halt = halt;
+  const rebuild = () => {
+    let list = base.slice();
+    if($("pLearned").getAttribute("aria-pressed") === "true") list = list.filter(c => SRS[c.id] && SRS[c.id].reps > 0);
+    if(P.shuf) shuffle(list);
+    P.cards = list; P.pos = 0; P.phase = 0; halt(); P.playing = false; show();
+  };
+  $("pShuf").onclick = () => { P.shuf = !P.shuf; $("pShuf").setAttribute("aria-pressed", String(P.shuf)); rebuild(); };
+  $("pLearned").onclick = () => { const b = $("pLearned"); b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true")); rebuild(); };
+  $("pPlay").onclick = () => { P.playing = !P.playing; halt(); P.playing ? step() : show(); };
+  $("pNext").onclick = () => { if(!P.cards.length) return; halt(); P.pos = (P.pos + 1) % P.cards.length; P.phase = 0; P.playing ? step() : show(); };
+  $("pPrev").onclick = () => { if(!P.cards.length) return; halt(); P.pos = (P.pos - 1 + P.cards.length) % P.cards.length; P.phase = 0; P.playing ? step() : show(); };
+  $("pRate").onchange = e => { P.rate = +e.target.value; store.set("yk3-rate", P.rate); };
+  $("pGap").onchange = e => { P.gap = +e.target.value; store.set("yk3-gap", P.gap); };
+  show();
+}
+
+/* ================= YÖNLENDİRME ================= */
+function render(){
+  stopSpeech(); if(P && P.halt){ P.playing = false; P.halt(); }
+  const h0 = location.hash.replace("#", "");
+  if(window.asistanRoute && window.asistanRoute(h0)) { window.scrollTo(0, 0); return; }
+  if(h0 === "kisisel"){ location.replace("#"); return; }
+  const [s, t, m] = h0.split("-");
+  const sec = SECTIONS[s], validT = sec && (t === "all" || sec.topicMap[t]);
+  if(validT && m === "kart"){ if(!S || S.s !== s || S.t !== t) S = null; renderCards(s, t); }
+  else if(validT && m === "test") renderTest(s, t);
+  else if(validT && m === "podcast") renderPodcast(s, t);
+  else if(sec && sec.topicMap[t]){ S = null; renderTopic(s, t); }
+  else if(sec){ S = null; renderSection(s); }
+  else { S = null; renderKisiselHome(); }
+  window.scrollTo(0, 0);
+}
+app.addEventListener("click", e => { const b = e.target.closest("[data-go]"); if(b) go(b.dataset.go); });
+window.addEventListener("hashchange", render);
+try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; }catch(e){}
+</script>
+<script>
+/* =====================================================================
+   ASİSTAN MODÜLÜ + YENİ ANA SAYFA + KALICI SAKLAMA
+   Kişisel modülün kodu yukarıda, değişmeden duruyor.
+   ===================================================================== */
+document.head.insertAdjacentHTML("beforeend", `<style>
+.top .right{display:flex;gap:8px}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.plan h2{font-size:22px}
+.plan ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.plan li{display:flex;gap:12px;align-items:baseline}
+.plan li b{flex:none;width:52px;font-variant-numeric:tabular-nums;color:var(--accent)}
+.field{display:flex;gap:8px}
+.field input{flex:1;min-width:0;font:inherit;font-size:17px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+textarea.ans{width:100%;min-height:130px;font:inherit;font-size:17px;line-height:1.45;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:12px 14px;resize:vertical}
+input.ans{width:100%;font:inherit;font-size:18px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.lesson{background:var(--card);color:var(--cardink);border-radius:24px;padding:22px 20px;display:flex;flex-direction:column;gap:14px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45)}
+.lesson h2{font-size:26px;line-height:1.15}
+.lesson h3{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--clabel);margin-bottom:4px}
+.lesson p{margin:0;font-size:17px;line-height:1.5}
+.lesson ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:17px;line-height:1.45}
+.ex{background:var(--csoft);border-radius:14px;padding:10px 12px}
+.ex b{font-weight:800}
+.ex span{display:block;font-size:15px;color:var(--cn)}
+.caution{font-size:14px;color:var(--ccaut);background:var(--ccautbg);border-radius:12px;padding:8px 10px}
+.vis{display:flex;flex-direction:column;gap:0;border-left:3px solid var(--crule);margin-left:6px}
+.vis .it{position:relative;padding:0 0 12px 18px}
+.vis .it::before{content:"";position:absolute;left:-8px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--cblank)}
+.vis .it b{display:block;font-size:15px;color:var(--cdeep)}
+.steps{counter-reset:s;display:flex;flex-direction:column;gap:8px}
+.steps .it{display:flex;gap:10px;align-items:flex-start}
+.steps .it::before{counter-increment:s;content:counter(s);flex:none;width:28px;height:28px;border-radius:9px;background:var(--cblank);color:var(--card);font-weight:900;display:flex;align-items:center;justify-content:center}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.cmp div{background:var(--csoft);border-radius:14px;padding:10px 12px;font-size:15px}
+.cmp b{display:block;font-size:16px;margin-bottom:2px}
+.tbl{overflow-x:auto}
+.tbl table{border-collapse:collapse;width:100%;font-size:15px}
+.tbl th,.tbl td{border-bottom:1px solid var(--ctbl);padding:6px 8px;text-align:left;vertical-align:top}
+.stepper{display:flex;gap:4px}
+.stepper span{flex:1;height:6px;border-radius:6px;background:var(--line)}
+.stepper span.on{background:var(--accent)} .stepper span.done{background:var(--good)}
+.fb{border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.45}
+.fb.ok{background:color-mix(in srgb,var(--good) 16%,var(--surface));border:1px solid var(--good)}
+.fb.no{background:color-mix(in srgb,var(--again) 14%,var(--surface));border:1px solid var(--again)}
+.fb.mid{background:color-mix(in srgb,var(--hard) 16%,var(--surface));border:1px solid var(--hard)}
+.fb b{font-weight:800}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.matchgrid button{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px;min-height:52px;font-weight:600;font-size:15px;text-align:left}
+.matchgrid button.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.matchgrid button.paired{opacity:.55}
+.matchgrid button.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,var(--surface));opacity:1}
+.matchgrid button.wrong{border-color:var(--again);background:color-mix(in srgb,var(--again) 14%,var(--surface));opacity:1}
+.loading{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:30px}
+.spin{width:44px;height:44px;border-radius:50%;border:5px solid var(--line);border-top-color:var(--accent);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.line{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start}
+.line .sp{font-weight:800;color:var(--accent);flex:none;min-width:56px}
+.line .tx{flex:1}
+.line .tr{display:block;font-size:14px;color:var(--muted)}
+.line button{flex:none;border:1px solid var(--line);background:var(--bg);border-radius:10px;height:36px;padding:0 10px;font-weight:700;font-size:13px}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:2px}
+.stat b{font-size:28px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:13px;font-weight:700;color:var(--muted)}
+.stat small{font-size:12px;color:var(--muted)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:90px;padding-top:6px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.bars i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--accent);min-height:2px}
+.bars small{font-size:11px;color:var(--muted);font-weight:700}
+.mrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.mrow:last-child{border-bottom:0}
+.mrow .nm{flex:1;font-weight:700}
+.mrow .mb{width:90px;height:8px;border-radius:8px;background:var(--line);overflow:hidden;flex:none}
+.mrow .mb span{display:block;height:100%;background:var(--good)}
+.mrow .pc{width:40px;text-align:right;font-weight:800;font-variant-numeric:tabular-nums;font-size:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.link{background:none;border:0;padding:6px 0;font-weight:700;color:var(--accent);text-align:left;text-decoration:underline;text-underline-offset:3px}
+</style>`);
+
+/* ================= KALICI SAKLAMA (Claude db) ================= */
+const CLOUD = { db: null, uid: null, ready: false, pending: {}, writing: {}, last: {}, timers: {} };
+function cloudDoc(k){ return CLOUD.db.collection("data/users/" + CLOUD.uid).doc(k); }
+function cloudSave(k, obj){
+  if(!CLOUD.ready) return;
+  CLOUD.pending[k] = obj; clearTimeout(CLOUD.timers[k]);
+  CLOUD.timers[k] = setTimeout(() => cloudFlush(k), 1500);
+}
+async function cloudFlush(k){
+  if(CLOUD.writing[k]){ CLOUD.timers[k] = setTimeout(() => cloudFlush(k), 800); return; }
+  const obj = CLOUD.pending[k]; if(!obj) return; delete CLOUD.pending[k];
+  const s = JSON.stringify(obj); if(CLOUD.last[k] === s) return;
+  CLOUD.writing[k] = true;
+  try{ await cloudDoc(k).set(JSON.parse(s)); CLOUD.last[k] = s; }
+  catch(e){ if(e && e.code === "unavailable" && !CLOUD.pending[k]){ CLOUD.pending[k] = obj; CLOUD.timers[k] = setTimeout(() => cloudFlush(k), 2000 + Math.random() * 2000); } }
+  CLOUD.writing[k] = false;
+}
+async function cloudGet(k){
+  try{
+    const snap = await Promise.race([cloudDoc(k).get(), new Promise((_, r) => setTimeout(() => r("timeout"), 10000))]);
+    return snap.exists ? JSON.parse(JSON.stringify(snap.data())) : null;
+  }catch(e){ return null; }
+}
+
+/* Kişisel modülün ilerlemesi de buluta yedeklenir (arayüz değişmez). */
+let KS_UPDATED = store.get("yk3-upd", 0);
+window.kisiselChanged = function(){
+  KS_UPDATED = Date.now(); store.set("yk3-upd", KS_UPDATED);
+  cloudSave("kisisel", { srs: SRS, log: LOG, updatedAt: KS_UPDATED });
+};
+async function pullKisisel(){
+  const r = await cloudGet("kisisel");
+  if(r && r.updatedAt > KS_UPDATED){
+    SRS = r.srs || {}; LOG = r.log || {}; KS_UPDATED = r.updatedAt; migrateSRS();
+    store.set("yk3-srs", SRS); store.set("yk3-log", LOG); store.set("yk3-upd", KS_UPDATED);
+    return true;
+  }
+  if(!r && Object.keys(SRS).length) cloudSave("kisisel", { srs: SRS, log: LOG, updatedAt: KS_UPDATED || Date.now() });
+  return false;
+}
+
+/* ================= ASİSTAN VERİSİ ================= */
+const AS = {
+  idx: store.get("as1-idx", null) || { topics: {}, stats: { time: 0, quizR: 0, quizW: 0, cardGood: 0, cardBad: 0, matureGood: 0, matureBad: 0, practice: [] }, days: {}, updatedAt: 0 },
+  t: {}
+};
+Object.keys(AS.idx.topics).forEach(id => { const d = store.get("as1-t-" + id, null); if(d) AS.t[id] = d; });
+function asSaveIdx(){ AS.idx.updatedAt = Date.now(); store.set("as1-idx", AS.idx); cloudSave("as_idx", AS.idx); }
+function asSaveTopic(tp){
+  tp.updatedAt = Date.now(); store.set("as1-t-" + tp.id, tp); cloudSave("as_t_" + tp.id, tp);
+  AS.idx.topics[tp.id] = { title: tp.title, category: tp.category, updatedAt: tp.updatedAt }; asSaveIdx();
+}
+async function pullAsistan(){
+  let changed = false;
+  const r = await cloudGet("as_idx");
+  if(r && r.updatedAt > AS.idx.updatedAt){ AS.idx = r; store.set("as1-idx", r); changed = true; }
+  const ids = Object.keys(AS.idx.topics);
+  for(const id of ids){
+    const loc = AS.t[id], meta = AS.idx.topics[id];
+    if(!loc || (meta.updatedAt || 0) > (loc.updatedAt || 0)){
+      const d = await cloudGet("as_t_" + id);
+      if(d && (!loc || d.updatedAt > (loc.updatedAt || 0))){ AS.t[id] = d; store.set("as1-t-" + id, d); changed = true; }
+    }
+  }
+  if(!r && ids.length){ cloudSave("as_idx", AS.idx); ids.forEach(id => AS.t[id] && cloudSave("as_t_" + id, AS.t[id])); }
+  return changed;
+}
+const dayStat = () => { const k = today(); AS.idx.days[k] = AS.idx.days[k] || { sec: 0, reviews: 0, lessons: 0 }; return AS.idx.days[k]; };
+
+/* Çalışma süresi: Asistan ekranındayken ve son 2 dakikada dokunduysan sayılır. */
+let lastInput = Date.now();
+["pointerdown", "keydown"].forEach(ev => document.addEventListener(ev, () => { lastInput = Date.now(); }, true));
+setInterval(() => {
+  if(document.visibilityState === "visible" && location.hash.startsWith("#asistan") && Date.now() - lastInput < 120000){
+    AS.idx.stats.time += 15; dayStat().sec += 15; store.set("as1-idx", AS.idx);
+    if(AS.idx.stats.time % 60 === 0) asSaveIdx();
+  }
+}, 15000);
+
+/* ================= CLAUDE'A SORMA (sample) ================= */
+let SAMPLE = null, SAMPLE_STATE = "loading";
+const PROFILE = "Öğrenci: Türk, Lizbon'da yaşıyor, Portekiz–İspanya arasında çok günlü turlarda tur lideri, Avrupa Portekizcesi B1 öğreniyor, tasarımcı. Kısa cümleler, A2–B1 Türkçe, önce en önemli bilgi.";
+function parseJSON(text){
+  let t = String(text || "").trim().replace(/^```(?:json)?/i, "").replace(/```$/, "");
+  const a = t.indexOf("{"), b = t.lastIndexOf("}");
+  if(a < 0 || b < a) throw { code: "parse", message: "Cevap okunamadı." };
+  return JSON.parse(t.slice(a, b + 1));
+}
+async function askJSON(prompt, tier, onProgress){
+  if(!SAMPLE) throw { code: SAMPLE_STATE === "loading" ? "loading" : "none" };
+  const r = await SAMPLE(prompt, { modelTier: tier || "default", onText: onProgress ? ({ text }) => onProgress(text.length) : undefined });
+  return parseJSON(r.text);
+}
+function aiErrorText(e){
+  const c = e && e.code;
+  if(c === "none") return "Asistan bu görünümde Claude'a bağlanamıyor. Uygulamayı claude.ai bağlantısından aç.";
+  if(c === "loading") return "Bağlantı hâlâ kuruluyor. Birkaç saniye sonra tekrar dene.";
+  if(c === "not_granted") return "Asistanın Claude'a soru sorması için izin vermen gerekiyor. Tekrar dene ve izin ver.";
+  if(c === "rate_limited") return "Çok fazla istek gönderildi. Bir dakika bekle, sonra tekrar dene.";
+  if(c === "parse") return "Claude'un cevabı okunamadı. Tekrar dene.";
+  return "Bir sorun oldu: " + ((e && e.message) || "bilinmeyen hata") + ". Tekrar dene.";
+}
+
+const LESSON_SCHEMA = `{"title":"kısa başlık","category":"dil|tarih|cografya|bilim|finans|tasarim|muzik|teknoloji|diger","method":"bu konu türü için seçtiğin öğretim yöntemi, 1 cümle","level":"baslangic|orta|ileri","minutes":5,
+"explain":{"definition":"1–2 cümle tanım","how":"temel mantık, 2–3 cümle","key_points":["en önemli 3–5 bilgi"],"examples":[{"text":"somut örnek","note":"kısa açıklama"}],"mistakes":["sık yapılan 2–3 hata"],"remember":["akılda kalacak 2–3 nokta"]},
+"visual":null,
+"quiz":[{"type":"mcq","q":"soru","options":["a","b","c","d"],"answer":0,"why":"bu yanlış neden yapılır, doğru mantık","example":"farklı bir örnek","retry":{"q":"aynı noktayı ölçen başka soru","options":["a","b","c","d"],"answer":2}},
+{"type":"tf","q":"ifade","answer":true,"why":"","example":"","retry":{"q":"","answer":false}},
+{"type":"cloze","q":"içinde ___ olan cümle","answer":"doğru kelime","accept":["kabul edilecek diğer yazımlar"],"why":"","example":"","retry":{"q":"","answer":"","accept":[]}},
+{"type":"match","q":"Eşleştir","pairs":[["sol","sağ"],["sol","sağ"],["sol","sağ"]],"why":""},
+{"type":"open","q":"kısa açık uçlu soru","model_answer":"","rubric":"tam puan için gereken noktalar","why":""},
+{"type":"explain","q":"Kendi cümlelerinle anlat: ...","model_answer":"","rubric":"","why":""}],
+"flashcards":[{"q":"kısa soru","a":"kısa cevap"}],
+"audio":null,
+"practice":{"type":"sentences|scenario|problem|compare|teach|roleplay","task":"öğrenciye tek, net görev","hint":"kısa ipucu","model_answer":"örnek iyi cevap","rubric":"değerlendirme ölçütü"},
+"next_topics":["önerilen sonraki konu","",""],
+"caution":"tartışmalı veya emin olunamayan nokta varsa kısa not, yoksa boş metin"}`;
+const VISUAL_SCHEMA = `"visual" alanı gerekiyorsa şu biçimlerden biri: {"type":"timeline","title":"","items":[{"label":"tarih","text":"olay"}]} | {"type":"steps","title":"","items":[{"label":"","text":""}]} | {"type":"compare","title":"","items":[{"label":"A","text":"özellikleri"},{"label":"B","text":""}]} | {"type":"table","title":"","headers":["",""],"rows":[["",""]]}`;
+const AUDIO_SCHEMA = `"audio" alanı gerekiyorsa: {"title":"","intro":"Türkçe 1 cümle: ne dinleyecek","lines":[{"speaker":"Ana","lang":"pt-PT","text":"orijinal dilde cümle","tr":"Türkçesi"}],"questions":[{"type":"mcq","q":"dinleme sorusu (Türkçe)","options":["","","",""],"answer":0,"why":""}]}. lang değerleri: pt-PT, es-ES, en-GB, tr-TR.`;
+
+function lessonPrompt(tp, opt){
+  const hist = tp.history || [];
+  const cont = hist.length ? `Bu konunun ${hist.length + 1}. dersi. Önceki derslerde işlenen noktalar: ${(tp.covered || []).slice(-15).join(" | ") || "-"}. Öğrencinin zayıf noktaları: ${(tp.weak || []).slice(-8).join(" | ") || "-"}. Bunları aynen tekrar anlatma: zayıf noktaları farklı açıdan pekiştir ve konuyu bir adım ilerlet.` : "Bu konunun ilk dersi.";
+  return `Sen kişisel ve titiz bir öğretmensin. ${PROFILE}
+KONU: "${tp.title}"
+SEVİYE: ${opt.level}. ${opt.level === "baslangic" ? "Çok basit anlat, günlük örnek ve benzetme kullan, sorular kolay olsun." : opt.level === "ileri" ? "Daha derin anlat, sorular ayırt edici ve zor olsun." : "Orta seviye."}
+${cont}
+GÖREV: Bu konu için 5 dakikalık bir mikro ders hazırla.
+1) Önce konunun türünü belirle (dil, tarih, coğrafya, bilim, finans, tasarım, müzik, teknoloji, diğer) ve ona uygun yöntemi seç. Örnek: dil → kelime, gramer, dinleme, konuşma; tarih → hikâye, kronoloji, olay ilişkisi; finans → kavram, hesaplama, senaryo; tasarım → görsel analiz, uygulama.
+2) Gereksiz araç üretme. "audio" sadece dil konularında (orijinal dilde kısa diyalog) veya dinlemenin gerçekten işe yaradığı konularda olsun, yoksa null. "visual" sadece kronoloji, adım, karşılaştırma veya tablo anlamayı gerçekten kolaylaştırıyorsa olsun, yoksa null.
+3) DOĞRULUK: Sadece yerleşik, doğrulanabilir bilgiler yaz. Emin olmadığın tarih, sayı, isim veya alıntıyı YAZMA. Rivayetse "rivayet" de. Finans, sağlık ve hukukta genel bilgi ver, kişisel tavsiye verme. Portekizce örnekler Avrupa Portekizcesi (pt-PT) olsun; Brezilya biçimi kullanma. Her sorunun tek ve kesin doğru cevabı olsun.
+4) quiz: 5–7 soru, türleri karıştır: mcq, tf, cloze, match ve en az bir "explain" (Feynman: kendi cümleleriyle anlatma). Her soruya "why" ve "example" yaz. mcq, tf ve cloze için aynı noktayı ölçen farklı bir "retry" sorusu ekle. cloze sorularında tam olarak bir "___" olsun.
+5) flashcards: 4–8 kart, sadece hatırlanması gereken bilgiler; kısa soru, kısa cevap. Anlatımın tamamını karta çevirme.
+6) practice: bilgiyi kullandıran tek görev (dil: cümle kurma veya rol yapma; tarih: olayları ilişkilendirme veya turistlere anlatma; finans: hesap veya senaryo).
+${VISUAL_SCHEMA}
+${AUDIO_SCHEMA}
+Sadece geçerli JSON döndür, başka metin yazma. Biçim:
+${LESSON_SCHEMA}`;
+}
+function validLesson(L){
+  if(!L || typeof L !== "object" || !L.explain || !Array.isArray(L.quiz)) throw { code: "parse" };
+  const okQ = q => {
+    if(!q || !q.q) return false;
+    if(q.type === "mcq") return Array.isArray(q.options) && q.options.length >= 2 && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.options.length;
+    if(q.type === "tf") return typeof q.answer === "boolean";
+    if(q.type === "cloze") return typeof q.answer === "string" && q.answer.trim() && /_{2,}/.test(q.q);
+    if(q.type === "match") return Array.isArray(q.pairs) && q.pairs.filter(p => Array.isArray(p) && p.length === 2 && p[0] && p[1]).length >= 2;
+    if(q.type === "open" || q.type === "explain") return !!q.model_answer;
+    return false;
+  };
+  L.quiz = L.quiz.filter(okQ).map(q => { if(q.retry && !okQ({ ...q.retry, type: q.type })) delete q.retry; if(q.type === "match") q.pairs = q.pairs.filter(p => Array.isArray(p) && p.length === 2 && p[0] && p[1]).slice(0, 6); return q; });
+  if(!L.quiz.length) throw { code: "parse" };
+  L.flashcards = (L.flashcards || []).filter(c => c && c.q && c.a).slice(0, 8);
+  const e = L.explain; ["key_points", "examples", "mistakes", "remember"].forEach(k => { if(!Array.isArray(e[k])) e[k] = []; });
+  if(L.audio && !(Array.isArray(L.audio.lines) && L.audio.lines.length)) L.audio = null;
+  if(L.audio) L.audio.questions = (L.audio.questions || []).filter(q => okQ({ ...q, type: "mcq" })).map(q => ({ ...q, type: "mcq" }));
+  if(L.visual && !((Array.isArray(L.visual.items) && L.visual.items.length) || (Array.isArray(L.visual.rows) && L.visual.rows.length))) L.visual = null;
+  if(!L.practice || !L.practice.task) L.practice = null;
+  L.next_topics = (L.next_topics || []).filter(Boolean).slice(0, 3);
+  return L;
+}
+function gradePrompt(question, model, rubric, answer, kind){
+  return `Bir öğrencinin cevabını değerlendir. ${PROFILE}
+${kind === "practice" ? "GÖREV" : "SORU"}: ${question}
+ÖRNEK DOĞRU CEVAP: ${model || "-"}
+ÖLÇÜT: ${rubric || "Ana fikir doğru ve eksiksiz mi?"}
+ÖĞRENCİNİN CEVABI: """${answer}"""
+Adil ol: farklı ama doğru ifadeleri kabul et. Bilgi hatası varsa açıkça söyle. Öğrenci Portekizce yazdıysa dil hatalarını Avrupa Portekizcesine göre düzelt.
+Sadece JSON döndür: {"score":0,"feedback":"Türkçe, en fazla 3 kısa cümle: neyi iyi yaptı, ne eksik","missing":["eksik nokta"],"corrected":"dil görevi ise cevabın düzeltilmiş hali, değilse boş"}
+score: 2 = doğru ve yeterli, 1 = kısmen doğru, 0 = yanlış veya çok eksik.`;
+}
+function simplerPrompt(tp, L){
+  return `${PROFILE}
+Öğrenci "${tp.title}" konusunu anlamakta zorlanıyor. Aşağıdaki anlatımı çok daha basit yap: günlük hayattan benzetme kullan, kısa cümleler yaz, yeni ve kolay örnekler ver. Bilgiyi değiştirme, emin olmadığın şey ekleme.
+Mevcut anlatım: ${JSON.stringify(L.explain)}
+Sadece JSON döndür: {"definition":"","how":"","key_points":[""],"examples":[{"text":"","note":""}],"mistakes":[""],"remember":[""]}`;
+}
+
+/* ================= ÖĞRENME MOTORU ================= */
+const CATS = {
+  dil: { name: "Dil", list: ["Portekizce: pretérito perfeito ve imperfeito farkı", "Portekizce: conjuntivo ne zaman kullanılır", "Portekizce: zamirlerin yeri (ênclise)", "Portekizce: restoranda ve otelde konuşma", "İspanyolca: tur lideri için temel ifadeler"] },
+  tarih: { name: "Tarih", list: ["Endülüs'ün kuruluşu ve yıkılışı", "Portekiz Keşifler Çağı", "1755 Lizbon depremi", "Reconquista", "Karanfil Devrimi", "İber Birliği (1580–1640)"] },
+  cografya: { name: "Coğrafya", list: ["İber Yarımadası'nın nehirleri", "Portekiz'in bölgeleri", "Endülüs'ün iklimi ve tarımı"] },
+  bilim: { name: "Bilim", list: ["Depremler nasıl oluşur", "Unutma eğrisi ve aralıklı tekrar", "Fotosentez"] },
+  finans: { name: "Finans", list: ["Bileşik faiz", "Enflasyon nedir", "Kişisel bütçe yapmanın temelleri"] },
+  tasarim: { name: "Tasarım", list: ["Tipografide hiyerarşi", "Renk teorisinin temelleri", "Grid sistemleri"] },
+  muzik: { name: "Müzik", list: ["Fado'nun yapısı", "Flamenko ritimleri (compás)"] },
+  teknoloji: { name: "Teknoloji", list: ["Yapay zekâ modelleri nasıl çalışır", "İnternet nasıl çalışır"] }
+};
+function topicId(title){ return "t" + hash(title.trim().toLocaleLowerCase("tr")); }
+function allAsCards(){ const out = []; Object.values(AS.t).forEach(tp => (tp.cards || []).forEach(c => out.push({ ...c, topic: tp.id }))); return out; }
+function asDue(){ const now = Date.now(); return allAsCards().filter(c => c.srs && c.srs.due <= now); }
+function mastery(tp){
+  const parts = [];
+  const qr = tp.quizR || 0, qw = tp.quizW || 0; if(qr + qw) parts.push([qr / (qr + qw), 0.4]);
+  const pr = tp.practice || []; if(pr.length) parts.push([pr.reduce((a, b) => a + b, 0) / (pr.length * 2), 0.3]);
+  const cg = tp.cardGood || 0, cb = tp.cardBad || 0; if(cg + cb) parts.push([cg / (cg + cb), 0.3]);
+  if(!parts.length) return 0;
+  const w = parts.reduce((a, p) => a + p[1], 0);
+  return Math.round(parts.reduce((a, p) => a + p[0] * p[1], 0) / w * 100);
+}
+function levelFor(tp){
+  const m = mastery(tp), n = (tp.history || []).length;
+  if(!n) return "orta";
+  return m >= 80 ? "ileri" : m < 50 ? "baslangic" : "orta";
+}
+function suggestions(){
+  const studied = new Set(Object.values(AS.t).map(t => t.title.toLocaleLowerCase("tr")));
+  const out = [];
+  Object.values(AS.t).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0)).forEach(tp => {
+    if((tp.history || []).length && mastery(tp) < 70) out.push({ title: tp.title, why: `Eksik kaldı · %${mastery(tp)}`, id: tp.id });
+    (tp.next || []).forEach(n => { if(!studied.has(n.toLocaleLowerCase("tr"))) out.push({ title: n, why: `"${tp.title}" sonrası` }); });
+  });
+  const seen = new Set(); return out.filter(s => { const k = s.title.toLocaleLowerCase("tr"); if(seen.has(k)) return false; seen.add(k); return true; }).slice(0, 5);
+}
+function inProgress(){ return Object.values(AS.t).filter(t => t.run && t.lesson).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))[0] || null; }
+function planNext(){
+  const ip = inProgress(); if(ip) return { kind: "resume", tp: ip };
+  const weak = Object.values(AS.t).filter(t => (t.history || []).length && mastery(t) < 70).sort((a, b) => mastery(a) - mastery(b))[0];
+  if(weak) return { kind: "continue", tp: weak };
+  const sg = suggestions().find(s => !s.id); if(sg) return { kind: "new", title: sg.title };
+  return null;
+}
+function recordCard(tp, card, g){
+  const prev = card.srs, mature = prev && prev.ivl >= 7;
+  card.srs = schedule(prev, g);
+  const good = g >= 3;
+  tp.cardGood = (tp.cardGood || 0) + (good ? 1 : 0); tp.cardBad = (tp.cardBad || 0) + (good ? 0 : 1);
+  const st = AS.idx.stats; good ? st.cardGood++ : st.cardBad++;
+  if(mature) good ? st.matureGood++ : st.matureBad++;
+  dayStat().reviews++;
+}
+
+/* ================= ASİSTAN: BUGÜN ================= */
+let PLAN = null;
+function planMinutes(due, nx){ return Math.min(4, Math.ceil(due * 0.3)) + (nx ? 6 : 0); }
+function renderAsistanHome(){
+  const due = asDue().length, nx = planNext(), sg = suggestions();
+  const total = planMinutes(due, nx);
+  const nxTitle = nx ? (nx.tp ? nx.tp.title : nx.title) : "";
+  const items = [];
+  if(due) items.push([`${Math.min(4, Math.ceil(due * 0.3))} dk`, `Tekrar: ${due} kart, konular karışık`]);
+  if(nx){
+    items.push(["3 dk", nx.kind === "resume" ? `Devam: ${nxTitle}` : nx.kind === "continue" ? `Eksikleri kapat: ${nxTitle}` : `Yeni konu: ${nxTitle}`]);
+    items.push(["2 dk", "Anlama testi"]);
+    items.push(["1 dk", "Aktif uygulama ve hatırlama"]);
+  }
+  app.innerHTML = `
+    <div class="top"><button class="back" data-go="">‹ Ana sayfa</button><div class="right"><button class="iconbtn" data-go="asistan-istatistik">Gelişim</button></div></div>
+    <div class="sechead"><h1>OTOMATİK</h1><p class="muted">Konuyu sen seç, gerisini öğretmen yönetir.</p></div>
+    ${items.length ? `<div class="plan"><h2>Bugünkü plan · ${total} dakika</h2>
+      <ol>${items.map(i => `<li><b>${i[0]}</b><span>${esc(i[1])}</span></li>`).join("")}</ol>
+      <button class="btn primary" id="startPlan">${nx && nx.kind === "resume" ? "Kaldığın yerden devam et" : "Planı başlat"}</button>
+      ${due && nx ? `<button class="link" data-go="asistan-tekrar">Sadece tekrar yap</button>` : ""}</div>`
+      : `<div class="plan"><h2>Bugün için plan yok</h2><p class="muted" style="margin:0">Aşağıdan bir konu seç. Öğretmen dersi, testleri ve tekrarları kendisi planlar.</p></div>`}
+    <div class="eyebrow">Yeni konu</div>
+    <form class="field" id="sform"><input id="sq" placeholder="Ne öğrenmek istiyorsun?" autocomplete="off" aria-label="Konu"><button class="btn primary" type="submit">Başla</button></form>
+    <div class="chips">${Object.entries(CATS).map(([k, c]) => `<button class="chip" data-cat="${k}">${c.name}</button>`).join("")}<button class="chip" id="mix" aria-pressed="false">Karıştır</button></div>
+    <div id="catlist"></div>
+    ${sg.length ? `<div class="eyebrow">Sana önerilen</div><div class="topics">${sg.map(s => `<button class="trow" data-start="${esc(s.title)}"><span><span class="tt">${esc(s.title)}</span><br><span class="ts">${esc(s.why)}</span></span></button>`).join("")}</div>` : ""}
+    ${Object.keys(AS.t).length ? `<div class="eyebrow">Konularım</div><div class="topics">${Object.values(AS.t).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0)).slice(0, 8).map(tp => `
+      <button class="trow" data-start="${esc(tp.title)}"><span><span class="tt">${esc(tp.title)}</span><br><span class="ts">${(tp.history || []).length} ders · ${(tp.cards || []).length} kart${tp.run ? " · yarım" : ""}</span></span>
+      <span class="bar"><span style="width:${mastery(tp)}%"></span></span></button>`).join("")}</div>` : ""}
+    ${SAMPLE_STATE === "none" ? `<p class="note">Asistan bu görünümde Claude'a bağlanamıyor. Yeni ders için uygulamayı claude.ai bağlantısından aç. Tekrarlar çalışmaya devam eder.</p>` : ""}`;
+  if($("startPlan")) $("startPlan").onclick = () => {
+    PLAN = { review: due > 0, next: nx };
+    if(PLAN.review) go("asistan-tekrar"); else startNext(nx);
+  };
+  $("sform").onsubmit = e => { e.preventDefault(); const v = $("sq").value.trim(); if(v.length > 1) startTopic(v); };
+  app.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => {
+    const c = CATS[b.dataset.cat];
+    $("catlist").innerHTML = `<div class="topics">${c.list.map(t => `<button class="trow" data-start="${esc(t)}"><span class="tt">${esc(t)}</span></button>`).join("")}</div>`;
+    bindStart();
+  });
+  $("mix").onclick = () => { const all = Object.values(CATS).flatMap(c => c.list); startTopic(all[Math.floor(Math.random() * all.length)]); };
+  bindStart();
+}
+function bindStart(){ app.querySelectorAll("[data-start]").forEach(b => b.onclick = () => startTopic(b.dataset.start)); }
+function startNext(nx){
+  PLAN = null;
+  if(!nx) return go("asistan");
+  if(nx.kind === "resume"){ LS.tp = nx.tp; return go("asistan-ders"); }
+  startTopic(nx.tp ? nx.tp.title : nx.title);
+}
+
+/* ================= DERS AKIŞI ================= */
+const LS = { tp: null, busy: false, abort: null };
+const PHASES = [["explain", "Anlatım"], ["quiz", "Test"], ["cards", "Kartlar"], ["audio", "Dinleme"], ["practice", "Uygulama"], ["summary", "Özet"]];
+function phasesOf(L){ return PHASES.filter(([p]) => p !== "audio" || L.audio).filter(([p]) => p !== "practice" || L.practice); }
+function ensureTopic(title){
+  const id = topicId(title);
+  if(!AS.t[id]) AS.t[id] = { id, title: title.trim(), category: "", created: Date.now(), history: [], covered: [], weak: [], next: [], cards: [], practice: [], quizR: 0, quizW: 0 };
+  return AS.t[id];
+}
+function startTopic(title){
+  const tp = ensureTopic(title);
+  LS.tp = tp;
+  if(tp.run && tp.lesson) return go("asistan-ders");
+  generateLesson(tp);
+}
+async function generateLesson(tp){
+  LS.tp = tp; LS.busy = true; LS.error = null;
+  if(location.hash !== "#asistan-ders") location.hash = "asistan-ders"; else renderLesson();
+  try{
+    const L = validLesson(await askJSON(lessonPrompt(tp, { level: levelFor(tp) }), "complex", n => { const el = $("genprog"); if(el) el.textContent = n > 50 ? `Ders yazılıyor… ${Math.round(n / 100) / 10} bin karakter` : "Konu türü belirleniyor…"; }));
+    tp.lesson = L; tp.category = L.category || tp.category;
+    tp.run = { phase: "explain", qi: 0, results: [], retry: false, answered: null, wrongStreak: 0, cardsI: 0, audioI: 0, audioRes: [], practice: null, inter: null, started: Date.now() };
+    asSaveTopic(tp);
+  }catch(e){ LS.error = aiErrorText(e); }
+  LS.busy = false;
+  if(location.hash === "#asistan-ders") renderLesson();
+}
+function header(L, tp){
+  const ph = phasesOf(L), cur = ph.findIndex(p => p[0] === tp.run.phase);
+  return `<div class="top"><button class="back" data-go="asistan">‹ Asistan</button><div class="right"><span class="count">${esc(ph[cur] ? ph[cur][1] : "")}</span></div></div>
+    <div class="stepper" aria-label="İlerleme">${ph.map((p, i) => `<span class="${i < cur ? "done" : i === cur ? "on" : ""}"></span>`).join("")}</div>`;
+}
+function nextPhase(tp){
+  const ph = phasesOf(tp.lesson).map(p => p[0]);
+  const i = ph.indexOf(tp.run.phase);
+  tp.run.phase = ph[Math.min(ph.length - 1, i + 1)];
+  if(tp.run.phase === "summary") finishLesson(tp);
+  asSaveTopic(tp); renderLesson(); window.scrollTo(0, 0);
+}
+function renderLesson(){
+  const tp = LS.tp;
+  if(!tp){ return renderAsistanHome(); }
+  if(LS.busy){
+    app.innerHTML = `<div class="top"><button class="back" id="cancelGen">‹ Vazgeç</button></div>
+      <div class="loading"><div class="spin" aria-hidden="true"></div><h2>${esc(tp.title)}</h2><p class="muted" id="genprog">Konu türü belirleniyor…</p>
+      <p class="note">Öğretmen konuyu inceleyip sana özel bir mikro ders hazırlıyor. Bu 20–60 saniye sürebilir.</p></div>`;
+    $("cancelGen").onclick = () => go("asistan");
+    return;
+  }
+  if(LS.error || !tp.lesson){
+    app.innerHTML = `<div class="top"><button class="back" data-go="asistan">‹ Asistan</button></div>
+      <div class="done"><h2>Ders hazırlanamadı</h2><p class="muted">${esc(LS.error || "Bu konu için ders yok.")}</p>
+      <button class="btn primary" id="retryGen">Tekrar dene</button></div>`;
+    $("retryGen").onclick = () => generateLesson(tp);
+    return;
+  }
+  const ph = tp.run.phase;
+  if(ph === "explain") return drawExplain(tp);
+  if(ph === "quiz") return drawQuiz(tp);
+  if(ph === "cards") return drawLessonCards(tp);
+  if(ph === "audio") return drawAudio(tp);
+  if(ph === "practice") return drawPractice(tp);
+  return drawSummary(tp);
+}
+
+/* --- Aşama 2: Mikro anlatım --- */
+function visualHTML(v){
+  if(!v) return "";
+  const title = v.title ? `<h3>${esc(v.title)}</h3>` : "";
+  if(v.type === "table" && Array.isArray(v.rows)) return `<div>${title}<div class="tbl"><table>${v.headers ? `<tr>${v.headers.map(h => `<th>${esc(h)}</th>`).join("")}</tr>` : ""}${v.rows.map(r => `<tr>${(r || []).map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</table></div></div>`;
+  const items = (v.items || []).filter(i => i && (i.label || i.text));
+  if(v.type === "compare") return `<div>${title}<div class="cmp">${items.map(i => `<div><b>${esc(i.label)}</b>${esc(i.text)}</div>`).join("")}</div></div>`;
+  if(v.type === "steps") return `<div>${title}<div class="steps">${items.map(i => `<div class="it"><span><b>${esc(i.label || "")}</b> ${esc(i.text || "")}</span></div>`).join("")}</div></div>`;
+  return `<div>${title}<div class="vis">${items.map(i => `<div class="it"><b>${esc(i.label || "")}</b>${esc(i.text || "")}</div>`).join("")}</div></div>`;
+}
+function drawExplain(tp){
+  const L = tp.lesson, e = L.explain;
+  const list = a => `<ul>${a.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  app.innerHTML = header(L, tp) + `
+    <div class="lesson">
+      <h2>${esc(L.title || tp.title)}</h2>
+      <div><h3>Tanım</h3><p>${esc(e.definition || "")}</p></div>
+      ${e.how ? `<div><h3>Nasıl çalışır</h3><p>${esc(e.how)}</p></div>` : ""}
+      ${visualHTML(L.visual)}
+      ${e.key_points.length ? `<div><h3>En önemli bilgiler</h3>${list(e.key_points)}</div>` : ""}
+      ${e.examples.length ? `<div><h3>Örnekler</h3><div style="display:flex;flex-direction:column;gap:8px">${e.examples.map(x => `<div class="ex"><b>${esc(x.text || x)}</b>${x.note ? `<span>${esc(x.note)}</span>` : ""}</div>`).join("")}</div></div>` : ""}
+      ${e.mistakes.length ? `<div><h3>Sık yapılan hatalar</h3>${list(e.mistakes)}</div>` : ""}
+      ${e.remember.length ? `<div><h3>Aklında kalsın</h3>${list(e.remember)}</div>` : ""}
+      ${L.caution ? `<div class="caution">${esc(L.caution)}</div>` : ""}
+    </div>
+    <div class="duo"><button class="btn" id="simpler">Daha basit anlat</button><button class="btn primary" id="toQuiz">Anladım, teste geç</button></div>`;
+  $("toQuiz").onclick = () => nextPhase(tp);
+  $("simpler").onclick = () => simplify(tp, "explain");
+}
+async function simplify(tp, back){
+  const b = $("simpler"); if(b){ b.disabled = true; b.textContent = "Hazırlanıyor…"; }
+  try{
+    const ex = await askJSON(simplerPrompt(tp, tp.lesson), "default");
+    if(ex && ex.definition){ ["key_points", "examples", "mistakes", "remember"].forEach(k => { if(!Array.isArray(ex[k])) ex[k] = []; }); tp.lesson.explain = ex; tp.run.simplified = (tp.run.simplified || 0) + 1; }
+    tp.run.phase = "explain"; asSaveTopic(tp); renderLesson(); window.scrollTo(0, 0);
+  }catch(e){ if(b){ b.disabled = false; b.textContent = "Daha basit anlat"; } alertBox(aiErrorText(e)); }
+}
+function alertBox(msg){ const d = document.createElement("div"); d.className = "fb no"; d.setAttribute("role", "alert"); d.textContent = msg; app.appendChild(d); setTimeout(() => d.remove(), 6000); }
+
+/* --- Aşama 3: Anlama testi --- */
+const norm = s => String(s || "").trim().toLocaleLowerCase("pt").replace(/\s+/g, " ").replace(/[.!?]+$/, "");
+const deacc = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
+function curQuestion(tp){ const q = tp.lesson.quiz[tp.run.qi]; return tp.run.retry && q.retry ? { ...q, ...q.retry, type: q.type, why: q.why, example: q.example, retry: null } : q; }
+function questionHTML(q, ans){
+  const L = "ABCDE";
+  if(q.type === "mcq") return `<div class="opts">${q.options.map((o, i) => `<button class="opt ${ans ? (i === q.answer ? "right" : i === ans.v ? "wrong" : "") : ""}" data-mcq="${i}" ${ans ? "disabled" : ""}><span class="k">${L[i] || i + 1}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  if(q.type === "tf") return `<div class="duo">${[[true, "Doğru"], [false, "Yanlış"]].map(([v, t]) => `<button class="btn ${ans ? "" : ""}" data-tf="${v}" ${ans ? "disabled" : ""} style="${ans && v === q.answer ? "border-color:var(--good);border-width:2px" : ans && v === ans.v ? "border-color:var(--again);border-width:2px" : ""}">${t}</button>`).join("")}</div>`;
+  if(q.type === "cloze") return `<form id="clozeF" style="display:flex;flex-direction:column;gap:8px"><input class="ans" id="clozeI" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Boşluğa gelen kelime" value="${ans ? esc(ans.v) : ""}" ${ans ? "disabled" : ""} aria-label="Cevabın">${ans ? "" : `<button class="btn primary" type="submit">Kontrol et</button>`}</form>`;
+  if(q.type === "match") return `<div id="matchBox"></div>`;
+  return `<textarea class="ans" id="openI" placeholder="Kendi cümlelerinle yaz…" ${ans ? "disabled" : ""} aria-label="Cevabın">${ans ? esc(ans.v) : ""}</textarea>${ans ? "" : `<button class="btn primary" id="openSend">Gönder</button>`}`;
+}
+function drawQuiz(tp){
+  const run = tp.run, L = tp.lesson;
+  if(run.qi >= L.quiz.length) return drawInterleave(tp);
+  const q = curQuestion(tp), ans = run.answered;
+  const typeName = { mcq: "Çoktan seçmeli", tf: "Doğru mu, yanlış mı?", cloze: "Boşluğu doldur", match: "Eşleştir", open: "Kısa cevap", explain: "Kendi cümlelerinle anlat" }[q.type];
+  app.innerHTML = header(L, tp) + `
+    <div class="qcard"><span class="label" style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--clabel)">${typeName}${run.retry ? " · Benzer soru" : ""} · ${run.qi + 1}/${L.quiz.length}</span>
+      <div class="q long" style="text-align:left;max-width:none">${esc(q.q).replace(/_{2,}/g, '<span class="blank">____</span>')}</div></div>
+    ${questionHTML(q, ans)}
+    <div id="fbBox">${ans ? feedbackHTML(q, ans, run) : ""}</div>`;
+  bindQuestion(tp, q);
+}
+function feedbackHTML(q, ans, run){
+  if(ans.ok === 1) return `<div class="fb ok"><b>Doğru.</b>${ans.note ? `<span>${esc(ans.note)}</span>` : ""}${ans.feedback ? `<span>${esc(ans.feedback)}</span>` : ""}</div><button class="btn primary" id="qNext">Devam</button>`;
+  const right = q.type === "mcq" ? q.options[q.answer] : q.type === "tf" ? (q.answer ? "Doğru" : "Yanlış") : q.type === "cloze" ? q.answer : q.type === "match" ? "" : q.model_answer;
+  const canRetry = !run.retry && q.retry;
+  return `<div class="fb ${ans.ok === 0.5 ? "mid" : "no"}"><b>${ans.ok === 0.5 ? "Kısmen doğru." : "Henüz değil."}</b>
+      ${ans.feedback ? `<span>${esc(ans.feedback)}</span>` : ""}
+      ${q.why ? `<span><b>Neden:</b> ${esc(q.why)}</span>` : ""}
+      ${q.example ? `<span><b>Başka bir örnek:</b> ${esc(q.example)}</span>` : ""}
+      ${canRetry ? "" : right ? `<span><b>Doğru cevap:</b> ${esc(right)}</span>` : ""}
+      ${ans.corrected ? `<span><b>Düzeltilmiş hali:</b> ${esc(ans.corrected)}</span>` : ""}</div>
+    ${canRetry ? `<button class="btn primary" id="qRetry">Benzer soruyu dene</button>` : `<button class="btn primary" id="qNext">Devam</button>`}
+    ${run.wrongStreak >= 2 ? `<button class="btn" id="qSimpler">Zorlanıyorum, daha basit anlat</button>` : ""}`;
+}
+function answerQuestion(tp, q, ans){
+  const run = tp.run; run.answered = ans;
+  if(!run.retry){ run.results.push({ q: q.q, type: q.type, ok: ans.ok, why: q.why || "", retryOk: null }); ans.ok === 1 ? (tp.quizR++, AS.idx.stats.quizR++) : (tp.quizW++, AS.idx.stats.quizW++); }
+  else { const r = run.results[run.results.length - 1]; if(r) r.retryOk = ans.ok === 1; }
+  run.wrongStreak = ans.ok === 1 ? 0 : run.wrongStreak + 1;
+  asSaveTopic(tp); drawQuiz(tp);
+}
+function bindQuestion(tp, q){
+  const run = tp.run;
+  if($("qNext")) $("qNext").onclick = () => { run.qi++; run.retry = false; run.answered = null; asSaveTopic(tp); drawQuiz(tp); window.scrollTo(0, 0); };
+  if($("qRetry")) $("qRetry").onclick = () => { run.retry = true; run.answered = null; asSaveTopic(tp); drawQuiz(tp); };
+  if($("qSimpler")) $("qSimpler").onclick = () => { run.wrongStreak = 0; simplify(tp, "quiz"); };
+  if(run.answered) return;
+  app.querySelectorAll("[data-mcq]").forEach(b => b.onclick = () => { const v = +b.dataset.mcq; answerQuestion(tp, q, { v, ok: v === q.answer ? 1 : 0 }); });
+  app.querySelectorAll("[data-tf]").forEach(b => b.onclick = () => { const v = b.dataset.tf === "true"; answerQuestion(tp, q, { v, ok: v === q.answer ? 1 : 0 }); });
+  if($("clozeF")) $("clozeF").onsubmit = e => {
+    e.preventDefault(); const v = $("clozeI").value; if(!v.trim()) return;
+    const goods = [q.answer, ...(q.accept || [])].map(norm);
+    let ok = goods.includes(norm(v)) ? 1 : 0, note = "";
+    if(!ok && goods.map(deacc).includes(deacc(norm(v)))){ ok = 1; note = `Aksana dikkat: ${q.answer}`; }
+    answerQuestion(tp, q, { v, ok, note });
+  };
+  if($("matchBox")) drawMatch(tp, q);
+  if($("openSend")) $("openSend").onclick = async () => {
+    const v = $("openI").value.trim(); if(v.length < 3) return;
+    $("openSend").disabled = true; $("openSend").textContent = "Değerlendiriliyor…";
+    try{
+      const g = await askJSON(gradePrompt(q.q, q.model_answer, q.rubric, v, "quiz"), "default");
+      const sc = Math.max(0, Math.min(2, Number(g.score) || 0));
+      answerQuestion(tp, q, { v, ok: sc === 2 ? 1 : sc === 1 ? 0.5 : 0, feedback: g.feedback || "", corrected: g.corrected || "" });
+    }catch(e){ $("openSend").disabled = false; $("openSend").textContent = "Gönder"; alertBox(aiErrorText(e)); }
+  };
+}
+function drawMatch(tp, q){
+  const left = q.pairs.map(p => p[0]);
+  const st = tp.run.match && tp.run.match.q === q.q ? tp.run.match : (tp.run.match = { q: q.q, right: shuffle(q.pairs.map(p => p[1])), map: {}, sel: null });
+  const box = $("matchBox");
+  const draw = () => {
+    box.innerHTML = `<div class="matchgrid">${left.map((l, i) => `<button data-l="${i}" class="${st.sel === i ? "sel" : st.map[i] != null ? "paired" : ""}">${esc(l)}${st.map[i] != null ? `<br><small>→ ${esc(st.right[st.map[i]])}</small>` : ""}</button>`).join("")}
+      ${""}</div><div class="eyebrow" style="margin:8px 0">Eşini seç</div><div class="matchgrid">${st.right.map((r, j) => `<button data-r="${j}" class="${Object.values(st.map).includes(j) ? "paired" : ""}">${esc(r)}</button>`).join("")}</div>
+      <button class="btn primary" id="matchCheck" ${Object.keys(st.map).length < left.length ? "disabled" : ""} style="margin-top:10px;width:100%">Kontrol et</button>`;
+    box.querySelectorAll("[data-l]").forEach(b => b.onclick = () => { const i = +b.dataset.l; if(st.map[i] != null){ delete st.map[i]; } st.sel = i; draw(); });
+    box.querySelectorAll("[data-r]").forEach(b => b.onclick = () => { if(st.sel == null) return; const j = +b.dataset.r; Object.keys(st.map).forEach(k => { if(st.map[k] === j) delete st.map[k]; }); st.map[st.sel] = j; st.sel = null; draw(); });
+    $("matchCheck").onclick = () => {
+      let right = 0; const wrongs = [];
+      left.forEach((l, i) => { if(st.right[st.map[i]] === q.pairs[i][1]) right++; else wrongs.push(`${l} → ${q.pairs[i][1]}`); });
+      const ok = right === left.length ? 1 : right >= left.length - 1 && left.length > 2 ? 0.5 : 0;
+      tp.run.match = null;
+      answerQuestion(tp, q, { v: right, ok, feedback: ok === 1 ? "" : `Doğru eşleşmeler: ${wrongs.join(" · ")}` });
+    };
+  };
+  draw();
+}
+
+/* Interleaving: testin sonunda önceki konulardan 2 kart */
+function drawInterleave(tp){
+  const run = tp.run;
+  if(run.inter == null){
+    const others = allAsCards().filter(c => c.topic !== tp.id && c.srs);
+    const pick = shuffle(others.slice()).sort((a, b) => a.srs.due - b.srs.due).slice(0, 2);
+    run.inter = pick.map(c => ({ topic: c.topic, id: c.id })); run.interI = 0; run.interFlip = false; asSaveTopic(tp);
+  }
+  if(run.interI >= run.inter.length) return nextPhase(tp);
+  const ref = run.inter[run.interI], otp = AS.t[ref.topic], card = otp && (otp.cards || []).find(c => c.id === ref.id);
+  if(!card){ run.interI++; return drawInterleave(tp); }
+  app.innerHTML = header(tp.lesson, tp) + `
+    <div class="stage"><div class="card ${run.interFlip ? "on" : ""}" id="icard" role="button" tabindex="0">
+      <div class="q long">${esc(card.q)}</div>${run.interFlip ? `<hr><div class="a">${esc(card.a)}</div>` : ""}</div></div>
+    ${run.interFlip ? gradeButtons(card) : `<div class="gradespace"></div>`}`;
+  const flip = () => { run.interFlip = true; drawInterleave(tp); };
+  $("icard").onclick = flip;
+  app.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { recordCard(otp, card, +b.dataset.g); asSaveTopic(otp); run.interI++; run.interFlip = false; asSaveTopic(tp); drawInterleave(tp); });
+}
+function gradeButtons(card){
+  const p = g => `<small>${fmtIvl(schedule(card.srs, g))}</small>`;
+  return `<div class="grades"><button class="g again" data-g="1">Tekrar${p(1)}</button><button class="g hard" data-g="2">Zor${p(2)}</button><button class="g good" data-g="3">İyi${p(3)}</button><button class="g easy" data-g="4">Kolay${p(4)}</button></div>`;
+}
+
+/* --- Aşama 4: Flashcard --- */
+function drawLessonCards(tp){
+  const run = tp.run, L = tp.lesson;
+  if(!run.cardIds){
+    run.cardIds = [];
+    L.flashcards.forEach(fc => {
+      const id = "c" + hash(tp.id + fc.q);
+      if(!tp.cards.find(c => c.id === id)) tp.cards.push({ id, q: fc.q, a: fc.a, srs: null });
+      run.cardIds.push(id);
+    });
+    run.cardsI = 0; run.cardFlip = false; asSaveTopic(tp);
+  }
+  if(run.cardsI >= run.cardIds.length) return nextPhase(tp);
+  const card = tp.cards.find(c => c.id === run.cardIds[run.cardsI]);
+  if(!card){ run.cardsI++; return drawLessonCards(tp); }
+  app.innerHTML = header(L, tp) + `
+    <div class="stage"><div class="card ${run.cardFlip ? "on" : ""}" id="lcard" role="button" tabindex="0">
+      <div class="q long">${esc(card.q)}</div>${run.cardFlip ? `<hr><div class="a">${esc(card.a)}</div>` : ""}</div></div>
+    ${run.cardFlip ? gradeButtons(card) : `<div class="gradespace"></div>`}`;
+  const flip = () => { run.cardFlip = true; drawLessonCards(tp); };
+  $("lcard").onclick = flip;
+  app.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { recordCard(tp, card, +b.dataset.g); run.cardsI++; run.cardFlip = false; asSaveTopic(tp); drawLessonCards(tp); });
+}
+
+/* --- Aşama 5: Sesli öğrenme --- */
+function playLines(lines, from, onLine, onEnd){
+  stopSpeech(); let i = from || 0, alive = true;
+  const nextL = () => { if(!alive) return; if(i >= lines.length){ onEnd && onEnd(); return; } onLine && onLine(i); const l = lines[i++]; speak(l.text, l.lang || "pt-PT", .9, () => setTimeout(nextL, 450)); };
+  nextL(); return () => { alive = false; stopSpeech(); };
+}
+let AUDIO_STOP = null;
+function drawAudio(tp){
+  const run = tp.run, A = tp.lesson.audio;
+  const canSpeak = "speechSynthesis" in window;
+  if(run.audioStage !== "q"){
+    app.innerHTML = header(tp.lesson, tp) + `
+      <div class="lesson"><h2>${esc(A.title || "Dinleme")}</h2><p>${esc(A.intro || "Önce metne bakmadan dinle.")}</p></div>
+      ${canSpeak ? `<button class="btn primary" id="aPlay">Dinle</button>` : `<p class="note">Bu tarayıcı sesli okumayı desteklemiyor. Metni oku.</p>`}
+      <button class="btn" id="aShow">${run.audioShow || !canSpeak ? "Metni gizle" : "Metni göster"}</button>
+      <div id="aLines" style="display:${run.audioShow || !canSpeak ? "flex" : "none"};flex-direction:column;gap:8px">
+        ${A.lines.map((l, i) => `<div class="line" id="al${i}"><span class="sp">${esc(l.speaker || "")}</span><span class="tx">${esc(l.text)}${l.tr ? `<span class="tr">${esc(l.tr)}</span>` : ""}</span>${canSpeak ? `<button data-al="${i}">Tekrar</button>` : ""}</div>`).join("")}
+      </div>
+      <button class="btn primary" id="aNext">${A.questions.length ? "Dinleme sorularına geç" : "Devam"}</button>
+      <p class="note">Ses gelmezse iPhone'un sessiz mod düğmesini kontrol et.</p>`;
+    const hl = i => A.lines.forEach((_, k) => { const el = $("al" + k); if(el) el.style.borderColor = k === i ? "var(--accent)" : "var(--line)"; });
+    if($("aPlay")) $("aPlay").onclick = () => {
+      if(AUDIO_STOP){ AUDIO_STOP(); AUDIO_STOP = null; $("aPlay").textContent = "Dinle"; hl(-1); return; }
+      $("aPlay").textContent = "Durdur";
+      AUDIO_STOP = playLines(A.lines, 0, hl, () => { AUDIO_STOP = null; const b = $("aPlay"); if(b) b.textContent = "Tekrar dinle"; hl(-1); });
+    };
+    $("aShow").onclick = () => { run.audioShow = !run.audioShow; asSaveTopic(tp); drawAudio(tp); };
+    app.querySelectorAll("[data-al]").forEach(b => b.onclick = () => { const l = A.lines[+b.dataset.al]; stopSpeech(); speak(l.text, l.lang || "pt-PT", .85); });
+    $("aNext").onclick = () => { if(AUDIO_STOP){ AUDIO_STOP(); AUDIO_STOP = null; } if(A.questions.length){ run.audioStage = "q"; run.audioI = 0; run.audioAns = null; asSaveTopic(tp); drawAudio(tp); } else nextPhase(tp); };
+    return;
+  }
+  if(run.audioI >= A.questions.length) return nextPhase(tp);
+  const q = A.questions[run.audioI], ans = run.audioAns;
+  app.innerHTML = header(tp.lesson, tp) + `
+    <div class="qcard"><span class="label" style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--clabel)">Dinleme sorusu · ${run.audioI + 1}/${A.questions.length}</span>
+      <div class="q long" style="text-align:left;max-width:none">${esc(q.q)}</div></div>
+    ${questionHTML(q, ans)}
+    ${ans ? `<div class="fb ${ans.ok ? "ok" : "no"}"><b>${ans.ok ? "Doğru." : "Henüz değil."}</b>${!ans.ok && q.why ? `<span>${esc(q.why)}</span>` : ""}</div><button class="btn primary" id="aqNext">Devam</button>` : ""}
+    ${!ans && canSpeak ? `<button class="btn" id="aReplay">Diyaloğu tekrar dinle</button>` : ""}`;
+  app.querySelectorAll("[data-mcq]").forEach(b => b.onclick = () => {
+    const v = +b.dataset.mcq, ok = v === q.answer;
+    run.audioAns = { v, ok }; run.results.push({ q: "Dinleme: " + q.q, type: "listen", ok: ok ? 1 : 0, why: q.why || "" });
+    ok ? (tp.quizR++, AS.idx.stats.quizR++) : (tp.quizW++, AS.idx.stats.quizW++);
+    asSaveTopic(tp); drawAudio(tp);
+  });
+  if($("aqNext")) $("aqNext").onclick = () => { run.audioI++; run.audioAns = null; asSaveTopic(tp); drawAudio(tp); };
+  if($("aReplay")) $("aReplay").onclick = () => { if(AUDIO_STOP) AUDIO_STOP(); AUDIO_STOP = playLines(A.lines, 0, null, () => { AUDIO_STOP = null; }); };
+}
+
+/* --- Aşama 6: Aktif uygulama --- */
+function drawPractice(tp){
+  const run = tp.run, P = tp.lesson.practice, done = run.practice;
+  app.innerHTML = header(tp.lesson, tp) + `
+    <div class="lesson"><h3>Şimdi sen kullan</h3><h2 style="font-size:22px">${esc(P.task)}</h2>
+      ${P.hint ? `<details><summary style="font-weight:700;cursor:pointer">İpucu</summary><p style="margin-top:6px">${esc(P.hint)}</p></details>` : ""}</div>
+    <textarea class="ans" id="prI" placeholder="Cevabını yaz…" aria-label="Cevabın" ${done && done.final ? "disabled" : ""}>${done ? esc(done.v) : ""}</textarea>
+    ${done ? `<div class="fb ${done.score === 2 ? "ok" : done.score === 1 ? "mid" : "no"}"><b>${done.score === 2 ? "Çok iyi." : done.score === 1 ? "İyi gidiyor, eksikler var." : "Bir daha deneyelim."}</b>
+      <span>${esc(done.feedback || "")}</span>${(done.missing || []).length ? `<span><b>Eksik:</b> ${esc(done.missing.join(", "))}</span>` : ""}
+      ${done.corrected ? `<span><b>Düzeltilmiş hali:</b> ${esc(done.corrected)}</span>` : ""}
+      ${done.final || done.score === 2 ? `<span><b>Örnek cevap:</b> ${esc(P.model_answer || "")}</span>` : ""}</div>` : ""}
+    ${done && !done.final && done.score < 2 ? `<div class="duo"><button class="btn" id="prAgain">Düzeltip tekrar gönder</button><button class="btn primary" id="prNext">Devam</button></div>`
+      : done ? `<button class="btn primary" id="prNext">Özete geç</button>` : `<button class="btn primary" id="prSend">Gönder</button><button class="link" id="prSkip">Şimdi atla</button>`}`;
+  const send = async () => {
+    const v = $("prI").value.trim(); if(v.length < 3) return;
+    const b = $("prSend") || $("prAgain"); b.disabled = true; b.textContent = "Değerlendiriliyor…";
+    try{
+      const g = await askJSON(gradePrompt(P.task, P.model_answer, P.rubric, v, "practice"), "default");
+      const score = Math.max(0, Math.min(2, Number(g.score) || 0));
+      const tries = (run.practice ? run.practice.tries : 0) + 1;
+      run.practice = { v, score, feedback: g.feedback, missing: g.missing || [], corrected: g.corrected || "", tries, final: tries >= 2 || score === 2 };
+      if(run.practice.final){ tp.practice.push(score); AS.idx.stats.practice.push(score); }
+      asSaveTopic(tp); drawPractice(tp);
+    }catch(e){ b.disabled = false; b.textContent = "Gönder"; alertBox(aiErrorText(e)); }
+  };
+  if($("prSend")) $("prSend").onclick = send;
+  if($("prAgain")) $("prAgain").onclick = () => { $("prI").disabled = false; $("prAgain").id = "prSend"; $("prSend").textContent = "Gönder"; $("prSend").onclick = send; $("prI").focus(); };
+  if($("prNext")) $("prNext").onclick = () => { if(run.practice && !run.practice.final){ tp.practice.push(run.practice.score); AS.idx.stats.practice.push(run.practice.score); run.practice.final = true; } nextPhase(tp); };
+  if($("prSkip")) $("prSkip").onclick = () => nextPhase(tp);
+}
+
+/* --- Aşama 7: Özet --- */
+function finishLesson(tp){
+  const run = tp.run, L = tp.lesson;
+  const res = run.results, r = res.filter(x => x.ok === 1).length;
+  const weak = res.filter(x => x.ok < 1).map(x => x.q.replace(/_{2,}/g, "…").slice(0, 120));
+  tp.weak = [...(tp.weak || []), ...weak].slice(-12);
+  tp.covered = [...(tp.covered || []), ...(L.explain.key_points || [])].slice(-30);
+  tp.next = L.next_topics || [];
+  tp.history.push({ date: today(), right: r, total: res.length, practice: run.practice ? run.practice.score : null, level: L.level || "", weak });
+  run.summary = { right: r, total: res.length, strong: res.filter(x => x.ok === 1).map(x => x.q).slice(0, 4), weak: res.filter(x => x.ok < 1).map(x => ({ q: x.q, why: x.why, fixed: x.retryOk })), cards: (run.cardIds || []).length, practice: run.practice ? run.practice.score : null, mastery: mastery(tp) };
+  dayStat().lessons++;
+}
+function drawSummary(tp){
+  const s = tp.run.summary || {}, L = tp.lesson;
+  const dueTomorrow = (tp.cards || []).filter(c => c.srs && c.srs.due < Date.now() + DAY * 1.5).length;
+  app.innerHTML = header(L, tp) + `
+    <div class="sechead"><h1>Ders özeti</h1><p class="muted">${esc(L.title || tp.title)}</p></div>
+    <div class="statgrid">
+      <div class="stat"><b>${s.right}/${s.total}</b><span>Doğru cevap</span></div>
+      <div class="stat"><b>%${s.mastery}</b><span>Konu hâkimiyeti</span><small>Test, uygulama ve hatırlamaya göre</small></div>
+      <div class="stat"><b>${s.cards}</b><span>Yeni kart</span><small>${dueTomorrow} tanesi yarın tekrar</small></div>
+      <div class="stat"><b>${s.practice == null ? "–" : ["Zayıf", "Orta", "İyi"][s.practice]}</b><span>Uygulama</span></div>
+    </div>
+    ${(s.strong || []).length ? `<div class="panel"><b>Güçlü olduğun noktalar</b>${s.strong.map(q => `<span>${esc(q.replace(/_{2,}/g, "…"))}</span>`).join("")}</div>` : ""}
+    ${(s.weak || []).length ? `<div class="panel"><b>Eksik kalan noktalar</b>${s.weak.map(w => `<span>${esc(w.q.replace(/_{2,}/g, "…"))}${w.why ? `<br><small class="muted">${esc(w.why)}</small>` : ""}${w.fixed ? ` <small class="muted">· benzer soruda düzelttin</small>` : ""}</span>`).join("")}
+      <small class="muted">Bu noktalar bir sonraki derste ve kart tekrarlarında öne çıkacak.</small></div>` : ""}
+    ${(L.next_topics || []).length ? `<div class="eyebrow">Sonraki önerilen konu</div><div class="topics">${L.next_topics.map(n => `<button class="trow" data-start="${esc(n)}"><span class="tt">${esc(n)}</span></button>`).join("")}</div>` : ""}
+    <div class="duo"><button class="btn" id="sumMore">Bu konuda devam</button><button class="btn primary" id="sumDone">Bitir</button></div>`;
+  const close = () => { tp.run = null; tp.lesson = null; asSaveTopic(tp); };
+  $("sumDone").onclick = () => { close(); go("asistan"); };
+  $("sumMore").onclick = () => { close(); generateLesson(tp); };
+  app.querySelectorAll("[data-start]").forEach(b => b.onclick = () => { close(); startTopic(b.dataset.start); });
+}
+
+/* ================= ASİSTAN: TEKRAR ================= */
+let RV = null;
+function renderReview(){
+  if(!RV){
+    const due = asDue();
+    const by = {}; due.forEach(c => (by[c.topic] = by[c.topic] || []).push(c));
+    const lists = Object.values(by).map(l => shuffle(l)), q = []; let k = 0;
+    while(lists.some(l => l.length)){ const l = lists[k % lists.length]; if(l.length) q.push(l.shift()); k++; }
+    RV = { q: q.map(c => ({ topic: c.topic, id: c.id })), flip: false, done: 0, good: 0 };
+  }
+  const ref = RV.q[0];
+  if(!ref){
+    const fin = () => { const pl = PLAN; RV = null; if(pl && pl.next){ startNext(pl.next); } else { PLAN = null; go("asistan"); } };
+    app.innerHTML = `<div class="top"><button class="back" data-go="asistan">‹ Asistan</button></div>
+      <div class="done"><h2>${RV.done ? "Tekrar bitti" : "Bekleyen tekrar yok"}</h2>
+      ${RV.done ? `<p class="muted">${RV.done} kart · ilk denemede hatırlama %${Math.round(RV.good / RV.done * 100)}</p>` : ""}
+      <button class="btn primary" id="rvNext">${PLAN && PLAN.next ? "Derse geç" : "Asistana dön"}</button></div>`;
+    $("rvNext").onclick = fin;
+    return;
+  }
+  const tp = AS.t[ref.topic], card = tp && (tp.cards || []).find(c => c.id === ref.id);
+  if(!card){ RV.q.shift(); return renderReview(); }
+  app.innerHTML = `<div class="cardtop"><button class="close" data-go="asistan" aria-label="Kapat">✕</button></div>
+    <div class="stage"><div class="card ${RV.flip ? "on" : ""}" id="rcard" role="button" tabindex="0">
+      <div class="q long">${esc(card.q)}</div>${RV.flip ? `<hr><div class="a">${esc(card.a)}</div>` : ""}</div></div>
+    ${RV.flip ? gradeButtons(card) : `<div class="gradespace"></div>`}`;
+  const flip = () => { RV.flip = true; renderReview(); };
+  $("rcard").onclick = flip;
+  app.querySelectorAll("[data-g]").forEach(b => b.onclick = () => {
+    const g = +b.dataset.g; recordCard(tp, card, g); asSaveTopic(tp);
+    const first = !RV.seen || !RV.seen[card.id]; RV.seen = RV.seen || {}; RV.seen[card.id] = 1;
+    if(first){ RV.done++; if(g >= 3) RV.good++; }
+    const cur = RV.q.shift(); if(g === 1) RV.q.splice(Math.min(3, RV.q.length), 0, cur);
+    RV.flip = false; renderReview();
+  });
+}
+
+/* ================= ASİSTAN: GELİŞİM PANELİ ================= */
+const pct = (a, b) => b ? Math.round(a / b * 100) + "%" : "–";
+function renderStats(){
+  const st = AS.idx.stats, tps = Object.values(AS.t).filter(t => (t.history || []).length);
+  const due = asDue().length, now = Date.now();
+  const fc = [0, 1, 2, 3, 4, 5, 6].map(d => allAsCards().filter(c => c.srs && c.srs.due > now + (d - 1) * DAY && c.srs.due <= now + d * DAY).length);
+  fc[0] = due;
+  const days = [6, 5, 4, 3, 2, 1, 0].map(d => { const x = new Date(); x.setDate(x.getDate() - d); return { k: dayKey(x), l: ["Pz", "Pt", "Sa", "Ça", "Pe", "Cu", "Ct"][x.getDay()] }; });
+  const mins = days.map(d => Math.round(((AS.idx.days[d.k] || {}).sec || 0) / 60)), maxM = Math.max(1, ...mins), maxF = Math.max(1, ...fc);
+  const pr = st.practice || [];
+  const sorted = tps.slice().sort((a, b) => mastery(b) - mastery(a));
+  app.innerHTML = `<div class="top"><button class="back" data-go="asistan">‹ Asistan</button></div>
+    <div class="sechead"><h1>Gelişim</h1><p class="muted">Başarı, tamamlanan ders sayısıyla değil; hatırlama ve uygulamayla ölçülür.</p></div>
+    <div class="statgrid">
+      <div class="stat"><b>${pct(st.cardGood, st.cardGood + st.cardBad)}</b><span>Hatırlama başarısı</span><small>${st.cardGood + st.cardBad} kart tekrarı</small></div>
+      <div class="stat"><b>${pct(st.matureGood, st.matureGood + st.matureBad)}</b><span>Uzun dönem kalıcılık</span><small>7+ gün sonra hatırlanan kartlar</small></div>
+      <div class="stat"><b>${pct(st.quizR, st.quizR + st.quizW)}</b><span>Test başarısı</span><small>${st.quizR + st.quizW} soru, ilk deneme</small></div>
+      <div class="stat"><b>${pr.length ? pct(pr.reduce((a, b) => a + b, 0), pr.length * 2) : "–"}</b><span>Uygulama başarısı</span><small>${pr.length} görev</small></div>
+      <div class="stat"><b>${tps.length}</b><span>Öğrenilen konu</span></div>
+      <div class="stat"><b>${Math.floor(st.time / 3600) ? Math.floor(st.time / 3600) + " sa " : ""}${Math.round(st.time % 3600 / 60)} dk</b><span>Toplam çalışma</span></div>
+    </div>
+    <div class="panel"><b>Son 7 gün · dakika</b><div class="bars">${mins.map((m, i) => `<div><i style="height:${m / maxM * 70}px" title="${m} dk"></i><small>${days[i].l}</small></div>`).join("")}</div></div>
+    <div class="panel"><b>Tekrar takvimi · ${due} kart bugün</b><div class="bars">${fc.map((n, i) => `<div><i style="height:${n / maxF * 70}px;background:var(--good)" title="${n} kart"></i><small>${i === 0 ? "Bugün" : "+" + i}</small></div>`).join("")}</div></div>
+    ${sorted.length ? `<div class="panel"><b>Konular · güçlüden zayıfa</b>${sorted.map(t => `<div class="mrow"><span class="nm">${esc(t.title)}</span><span class="mb"><span style="width:${mastery(t)}%"></span></span><span class="pc">%${mastery(t)}</span></div>`).join("")}</div>` : `<p class="note">İlk dersini bitirdiğinde konuların burada görünecek.</p>`}`;
+}
+
+/* ================= YÖNLENDİRME ================= */
+window.asistanRoute = function(h){
+  if(!h.startsWith("asistan")) { if(AUDIO_STOP){ AUDIO_STOP(); AUDIO_STOP = null; } return false; }
+  if(AUDIO_STOP){ AUDIO_STOP(); AUDIO_STOP = null; }
+  if(h === "asistan"){ RV = null; renderAsistanHome(); }
+  else if(h === "asistan-ders") renderLesson();
+  else if(h === "asistan-tekrar"){ RV = null; renderReview(); }
+  else if(h === "asistan-istatistik") renderStats();
+  else renderAsistanHome();
+  return true;
+};
+
+/* ================= BAŞLAT ================= */
+if(location.hash){ try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){ location.hash = ""; } }
+render();
+(async () => {
+  if(!window.claude || !window.claude.use){ SAMPLE_STATE = "none"; if(location.hash === "#asistan") render(); return; }
+  claude.use("sample").then(s => { SAMPLE = s; SAMPLE_STATE = s ? "ready" : "none"; if(location.hash === "#asistan") render(); }).catch(() => { SAMPLE_STATE = "none"; });
+  try{
+    const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+    if(!db || !user) return;
+    const uid = await user.id(); if(!uid) return;
+    CLOUD.db = db; CLOUD.uid = uid; CLOUD.ready = true;
+    const a = await pullKisisel(), b = await pullAsistan();
+    if((a || b) && !location.hash.includes("-kart") && !location.hash.includes("-test") && location.hash !== "#asistan-ders" && location.hash !== "#asistan-tekrar") render();
+  }catch(e){}
+})();
+
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

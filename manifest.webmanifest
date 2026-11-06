@@ -1,0 +1,21 @@
+{
+ "name": "Çalışma",
+ "short_name": "Çalışma",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#2a1f18",
+ "theme_color": "#2a1f18",
+ "icons": [
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "apple-touch-icon.png",
+   "sizes": "180x180",
+   "type": "image/png"
+  }
+ ]
+}
